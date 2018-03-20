@@ -22,6 +22,7 @@ public class GameManager : MonoBehaviour {
 	public int maxLevel;
 	private int currLevel;
 	public SpawnEnemies sE;
+	private menuScript mS;
 
 	public float left;
 	public float right;
@@ -32,6 +33,7 @@ public class GameManager : MonoBehaviour {
 	public Text gold;
 	public Text time;
 	public Text Hp;
+	public Text metalOre;
 
 	public bool isPaused;
 
@@ -47,6 +49,13 @@ public class GameManager : MonoBehaviour {
 	public Button unpauseBtn;
 	public Button goldToHealth;
 	public Button goldToTime;
+	public Button goldToOre;
+	public Button blackSmithButton;
+	public Canvas blackSmithCanvas;
+	public Button blackSmithBack;
+
+	//blacksmithoptions
+
 
 	// Use this for initialization
 	void Start () {
@@ -56,13 +65,38 @@ public class GameManager : MonoBehaviour {
 		initialise (0);
 		isBetweenLevels = false;
 		betweenLevelsWaitingTime = 0.0f;
+		mS = menuCanvas.GetComponent<menuScript> ();
 
 		menuBtn.onClick.AddListener (showMenu);
 		unpauseBtn.onClick.AddListener (unpause);
 		goldToHealth.onClick.AddListener (changeGoldToHealth);
 		goldToTime.onClick.AddListener (changeGoldToTime);
+		blackSmithButton.onClick.AddListener (blackSmith);
+		blackSmithBack.onClick.AddListener (blackSmithBackRun);
+		goldToOre.onClick.AddListener (buyOre);
 		menuCanvas.enabled = false;
+		blackSmithCanvas.enabled = false;
 
+	}
+	public void buyOre(){
+		int oreTOBuy = mS.getOre ();
+		if (oreTOBuy * 10 <= p.getGold()) {
+			p.buyOre (oreTOBuy);
+			p.removeGold (10 * oreTOBuy);
+			mS.resetOreMenu ();
+		}
+	}
+	public int checkOre(){
+		return p.metalOre;
+	}
+	public void blackSmith(){
+		blackSmithCanvas.enabled = true;
+		menuCanvas.enabled = false;
+		usualCanvas.enabled = false;
+	}
+	public void blackSmithBackRun(){
+		blackSmithCanvas.enabled = false;
+		usualCanvas.enabled = true;
 	}
 
 	void showMenu(){
@@ -98,6 +132,7 @@ public class GameManager : MonoBehaviour {
 		gold.text = "Gold: " + p.getGold();
 		time.text = "Time Left: " + p.getTimeLeft();
 		Hp.text = "HP: " + p.getHP () + "/" + p.getHPTotal ();
+		metalOre.text = "Ore: " + p.getOre ();
 		if (isPaused) {
 			return;
 		}
@@ -160,12 +195,21 @@ public class GameManager : MonoBehaviour {
 	}
 
 	public void changeGoldToHealth(){
-		p.removeGold (1);
-		p.addHPCurrent (1);
+		int toBuy = mS.hpToBuy ();
+		//check if legal
+		if (p.getGold () >= toBuy) {
+			p.removeGold (toBuy);
+			p.addHPCurrent (toBuy);
+			mS.resethealth ();
+		}
 	}
 
 	public void changeGoldToTime(){
-		p.removeGold (1);
-		p.addTime (1);
+		int timeToBuy = mS.timeToBuy ();
+		if (timeToBuy <= p.getGold()) {
+			p.removeGold (timeToBuy);
+			p.addTime (timeToBuy);
+			mS.resetTimeMenu ();
+		}
 	}
 }

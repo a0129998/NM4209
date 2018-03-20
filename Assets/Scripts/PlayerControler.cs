@@ -10,12 +10,14 @@ public class PlayerControler : MonoBehaviour {
 	public GameObject sword;
 	private SwordControler sC;
 	public int gold;
+	public int metalOre;
 	public bool waiting;
 	public bool pauseTime;
 
 	//stats
 	private int atk;
 	private int def;//currently unused
+	public int regen;
 	public int hpTotal;
 	public float spdMultiplyer;
 	private float timeLeft;
@@ -36,10 +38,30 @@ public class PlayerControler : MonoBehaviour {
 		this.gold = gold;
 		this.waiting = false;
 		this.isPaused = false;
+		this.metalOre = 0;
+		this.regen = 0;
 	}
+
+	public int getOre(){
+		return metalOre;
+	}
+
+	public void buyOre(int toBuy){
+		int cost = toBuy * 10;
+		if (cost <= gold) {
+			gold -= cost; 
+			StartCoroutine (aO (toBuy));
+		}
+	}
+	IEnumerator aO(int toAdd){
+		yield return new WaitForSeconds (10);//wait 10 secs
+		metalOre += toAdd;
+	}
+
 
 	public void initPlayerAddtitional(float timeLeft){
 		this.timeLeft = timeLeft;
+
 	}
 	public void setDead(){
 		alive = false;
