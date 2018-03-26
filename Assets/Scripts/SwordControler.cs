@@ -7,21 +7,27 @@ public class SwordControler : MonoBehaviour {
 	private GameManager gm;
 	private PlayerControler player;
 	private float t;
-	private float speed;
+	private float atkSpd;
+	private float pT;
+	private float angleStart;
+	private float angleEnd;
+
+
+	public Vector3 pos;
 	// Use this for initialization
 	void Start () {
 		gameObject.SetActive (false);//only active when called
 		gm = gameManager.GetComponent<GameManager> ();
 		t = 0.0f;
-		speed = 350;
 		player = gameObject.GetComponentInParent<PlayerControler> ();
+		atkSpd = player.atkSpd;
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		if (t > 0) {
 			t -= Time.deltaTime;
-			gameObject.transform.Rotate (Vector3.back * Time.deltaTime * speed);
+			transform.localRotation = Quaternion.Euler (new Vector3 (0.0f, 0.0f, t * atkSpd));
 		} else {
 			gameObject.SetActive (false);
 		}
@@ -36,8 +42,10 @@ public class SwordControler : MonoBehaviour {
 
 	public void cutTrigger(){
 		t = 1.0f;
-		Vector3 mousePos = Input.mousePosition;
+		Vector3 mousePos = Camera.main.ScreenToWorldPoint( Input.mousePosition);
 		Vector3 pos = mousePos - gm.getPlayerLocation();
-		//gameObject.transform.rotation = new Quaternion (Mathf.Ceil( pos.x), Mathf.Ceil( pos.y), 0.0f, 1.0f);
+		//transform.eulerAngles = pos;
+		this.pos = new Vector3(pos.x, pos.y, 0.0f); 
+		Debug.Log (this.pos);
 	}
 }

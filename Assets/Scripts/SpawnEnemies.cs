@@ -11,19 +11,21 @@ public class SpawnEnemies : MonoBehaviour {
 	private GameObject[] enemies;
 	private int counter;
 	public static int numEnemies;
+	public int[] enemyNumber;
 
 	public float left;
 	public float right;
 	public float up;
 	public float down;
 
-	public void initSpawn(int[] enemyType, float[] time){
+	public void initSpawn(int[] enemyType, float[] time, int[] enemyNumber){
 		this.gm = gameManager.GetComponent<GameManager> ();
 		this.enemyType = enemyType;
 		this.times = time;
 		this.enemies = gm.enemnies;
 		this.counter = 0;
 		this.timeToNext = times [counter];
+		this.enemyNumber = enemyNumber;
 		numEnemies = 0;
 	}
 
@@ -39,9 +41,12 @@ public class SpawnEnemies : MonoBehaviour {
 		} else {
 			if (counter < this.times.Length) {
 				//get random loc and instantiate
-				Instantiate (enemies [enemyType [counter]], getRandomLocation (), Quaternion.identity);
-				timeToNext = times [counter];
-				numEnemies++;
+				for (int i = 0; i < enemyNumber [counter]; i++) {
+					Instantiate (enemies [enemyType [counter]], getRandomLocation (), Quaternion.identity);
+					timeToNext = times [counter];
+					numEnemies++;
+
+				}
 				counter++;
 
 			} else if (counter == this.times.Length) {

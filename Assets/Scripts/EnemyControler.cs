@@ -5,16 +5,21 @@ using UnityEngine;
 public class EnemyControler : MonoBehaviour {
 	public static GameObject gameManager;
 	public static bool isPaused;
-	public int damage;
+	public int atk;
 	public int hp;
+	public int maxHp;
 	public int goldDropped;
+	public int regen;
 	private static GameManager gm;
+	private float s;//5sec regen
 
 	public float speed;
 	// Use this for initialization
 	void Start () {
 		gameManager = GameObject.Find ("GameManager");
 		gm = gameManager.GetComponent<GameManager> ();
+		s = 5.0f;
+		hp = maxHp;
 	}
 	
 	// Update is called once per frame
@@ -26,6 +31,11 @@ public class EnemyControler : MonoBehaviour {
 		Vector3 direction = playerLocation - gameObject.transform.position;
 		direction = direction.normalized;
 		gameObject.transform.Translate (direction * speed);
+
+		s -= Time.deltaTime;
+		if (s < 0) {
+			hp = Mathf.Min (hp + regen, maxHp);
+		}
 	}
 
 	public void isHit(int hpToRed){//reduce
@@ -33,7 +43,7 @@ public class EnemyControler : MonoBehaviour {
 	}
 
 	public int getDamage(){
-		return damage;
+		return atk;
 	}
 
 	public int getGoldDropped(){

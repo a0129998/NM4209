@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class menuScript : MonoBehaviour {
+	//shop
 	public Text healthGold;
 	public Text healthEnd;
 	public Button healthInc;
@@ -18,6 +19,13 @@ public class menuScript : MonoBehaviour {
 	public Text oreEndT;
 	public Button oreInc;
 	public Button oreDec;
+
+	public Button buyGold;
+	public Button buyTime;
+	public Button buyOre;
+
+	public Text notEnoughGold;
+	public Image blockOre;
 
 	private int hpGold, hp, timeGold, timeGain, oreGold, oreGain;
 	// Use this for initialization
@@ -42,7 +50,10 @@ public class menuScript : MonoBehaviour {
 		oreGoldT.text = oreGain + " Ore";
 		oreInc.onClick.AddListener (addOre);
 		oreDec.onClick.AddListener (reduceOre);
+		notEnoughGold.enabled = false;
+		blockOre.enabled = false;
 	}
+		
 
 	public void addOre(){
 		oreGold += 10;
@@ -101,8 +112,20 @@ public class menuScript : MonoBehaviour {
 		healthGold.text = hpGold + " G";
 		healthEnd.text = hp + " HP";
 		timeGoldT.text = timeGold + " G";
-		timeGoldT.text = timeGain + " s";
+		timeEndT.text = timeGain + " s";
 		oreGoldT.text = oreGold + " G";
-		oreGoldT.text = oreGain + " Ore";
+		oreEndT.text = oreGain + " Ore";
+	}
+
+	public void warnNotEnoughGold(){
+		StartCoroutine (warnNotEnoughGold (notEnoughGold));
+
+	}
+
+	IEnumerator warnNotEnoughGold(Text notEnoughGold){
+		notEnoughGold.enabled = true;
+		yield return new WaitForSeconds (3);
+		notEnoughGold.enabled = false;
+		Start ();
 	}
 }
