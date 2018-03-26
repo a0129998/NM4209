@@ -196,6 +196,18 @@ public class GameManager : MonoBehaviour {
 			p.waveTimeLeft = 60.0f;
 			sE.initSpawn (new int[4]{ 1, 2, 1, 1}, new float[4]{ 1.0f, 2.0f, 1.0f, 1.0f }, new int[4]{1,2,1,1});
 			break;
+		case 8:
+			p.waveTimeLeft = 60.0f;
+			sE.initSpawn (new int[4]{ 1, 1, 1, 2}, new float[4]{ 1.0f, 2.0f, 1.0f, 1.0f }, new int[4]{5,10,5,5});
+			break;
+		case 9:
+			p.waveTimeLeft = 60.0f;
+			sE.initSpawn (new int[4]{ 2, 2, 2, 2}, new float[4]{ 1.0f, 2.0f, 1.0f, 1.0f }, new int[4]{1,2,1,1});
+			break;
+		case 10:
+			p.waveTimeLeft = 60.0f;
+			sE.initSpawn (new int[6]{ 0, 1, 2, 2, 2, 2}, new float[6]{ 2.0f, 10.0f, 2.0f, 1.0f, 5.0f, 1 }, new int[]{2,10,2,1,5,1});
+			break;
         }
 
     }

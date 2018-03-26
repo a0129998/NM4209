@@ -2129,7 +2129,7 @@ MonoBehaviour:
   - {fileID: 1453614055819960, guid: 655f7e05940336344a9bf1c89e144b49, type: 2}
   - {fileID: 1221428567376612, guid: e9104c4e2cc53294495cac809b1c2e1c, type: 2}
   - {fileID: 1463733261180664, guid: e8e59fad3630d40428dd52bfe84113f1, type: 2}
-  maxLevel: 5
+  maxLevel: 10
   sE: {fileID: 693421201}
   left: -8
   right: 8
@@ -3544,7 +3544,7 @@ Prefab:
     - target: {fileID: 114546165628192688, guid: 2b533d016649ec84fb898282793eeb8b,
         type: 2}
       propertyPath: maxLevel
-      value: 5
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 114546165628192688, guid: 2b533d016649ec84fb898282793eeb8b,
         type: 2}

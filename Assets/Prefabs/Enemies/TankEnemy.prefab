@@ -100,11 +100,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   atk: 10
-  hp: 2
-  maxHp: 20
+  hp: 40
+  maxHp: 40
   goldDropped: 10
-  regen: 0
-  speed: 0.01
+  regen: 5
+  speed: 0.005
 --- !u!212 &212524343186285564
 SpriteRenderer:
   m_ObjectHideFlags: 1

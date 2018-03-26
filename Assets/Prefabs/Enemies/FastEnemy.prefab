@@ -100,9 +100,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   atk: 10
-  hp: 1
+  hp: 10
   maxHp: 10
-  goldDropped: 10
+  goldDropped: 2
   regen: 0
   speed: 0.02
 --- !u!212 &212158422438076764
