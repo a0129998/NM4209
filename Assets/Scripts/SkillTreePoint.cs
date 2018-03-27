@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
-public class SkillTreePoint : MonoBehaviour {
+public class SkillTreePoint : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler {
 	public bool activated;
 	public GameObject player;
 	private PlayerControler pC;
@@ -17,6 +18,9 @@ public class SkillTreePoint : MonoBehaviour {
 	public float MSAdd;//not implemented
 	public float ASAdd;//not implemented
 
+	public Text tooltip;
+	public GameObject panel;
+
 	public Button thisButton;
 	// Use this for initialization
 
@@ -24,6 +28,8 @@ public class SkillTreePoint : MonoBehaviour {
 		pC = player.GetComponent<PlayerControler> ();
 		thisButton.onClick.AddListener (upgradePlayer);
 		activated = false;
+		tooltip.enabled = false;
+		panel.SetActive (false);
 	}
 	public void upgradePlayer(){
 		if (pC.metalOre > costInOre && canActivate()) {
@@ -64,4 +70,16 @@ public class SkillTreePoint : MonoBehaviour {
 			return true;
 		}
 	}
+
+	public void OnPointerEnter(PointerEventData p){
+		tooltip.enabled = true;
+		panel.SetActive (true);
+		tooltip.transform.position = Input.mousePosition;
+	}
+
+	public void OnPointerExit(PointerEventData p){
+		tooltip.enabled = false;
+		panel.SetActive (false);
+	}
+
 }
