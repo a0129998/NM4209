@@ -22,8 +22,11 @@ public class SkillTreePoint : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 	public GameObject panel;
 
 	public Button thisButton;
-	public Image notObtained;
-	public Image locked;
+
+	private SpriteRenderer sR;
+	private Image buttonImg;
+	public Sprite locked;
+	public Sprite notObtained;
 	// Use this for initialization
 
 	void Start(){
@@ -32,8 +35,9 @@ public class SkillTreePoint : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 		activated = false;
 		tooltip.enabled = false;
 		panel.SetActive (false);
-		notObtained.enabled = false;
-		locked.enabled = false;
+		//notObtained.enabled = false;
+		//locked.enabled = false;
+		buttonImg = gameObject.GetComponent<Image>();
 
 	}
 	public void upgradePlayer(){
@@ -51,16 +55,13 @@ public class SkillTreePoint : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
 	void Update(){
 		if (!canActivate ()) {
-			locked.enabled = true;
-			notObtained.enabled = false;
+			buttonImg.sprite = locked;
 			return;
 		} else if (!activated) {
-			locked.enabled = false;
-			notObtained.enabled = true;
+			buttonImg.sprite = notObtained;
 			return;
 		} else {
-			locked.enabled = false;
-			notObtained.enabled = false;
+			buttonImg.enabled = false;//no sprite
 			return;
 		}
 

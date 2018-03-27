@@ -15,6 +15,8 @@ public class GameManager : MonoBehaviour {
         }
     }
 
+	public static bool debug = true;
+
     public GameObject player;
     private PlayerControler p;
     private Vector2 playerLocation;
@@ -90,6 +92,7 @@ public class GameManager : MonoBehaviour {
         return p.metalOre;
     }
     public void blackSmith(){
+		pauseGame ();
         blackSmithCanvas.enabled = true;
         menuCanvas.enabled = false;
         //usualCanvas.enabled = false;
@@ -97,6 +100,7 @@ public class GameManager : MonoBehaviour {
     public void blackSmithBackRun(){
         blackSmithCanvas.enabled = false;
         usualCanvas.enabled = true;
+		unpause2 ();
     }
 
     void showMenu(){
@@ -120,6 +124,11 @@ public class GameManager : MonoBehaviour {
         menuBtn.enabled = true;
         menuCanvas.enabled = false;
     }
+	public void unpause2(){
+		p.isPlayerPaused = false;
+		isPaused = false;
+		EnemyControler.isPaused = false;
+	}
 
 
     
@@ -166,7 +175,7 @@ public class GameManager : MonoBehaviour {
         switch (level){
 		case 0:
 			p.waveTimeLeft = 40;
-			sE.initSpawn (new int[5]{ 0, 0, 0, 0, 0 }, new float[5]{ 1.0f, 1.0f, 1.0f, 1.0f, 1.0f }, new int[5]{1,1,1,1,1});
+			sE.initSpawn (new int[5]{ 0, 1, 2, 0, 0 }, new float[5]{ 1.0f, 1.0f, 1.0f, 1.0f, 1.0f }, new int[5]{1,1,1,1,1});
             break;
         case 1:
 			p.waveTimeLeft = 40.0f;

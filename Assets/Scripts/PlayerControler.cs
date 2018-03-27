@@ -38,6 +38,8 @@ public class PlayerControler : MonoBehaviour {
 
 	private float s;
 
+	public bool invincible;
+
 
     void Start(){
         this.isPlayerAlive = true;
@@ -63,7 +65,7 @@ public class PlayerControler : MonoBehaviour {
 
 
     void OnTriggerEnter2D(Collider2D other){
-        if (other.CompareTag ("enemy") && this.CompareTag("Player")) {
+		if (other.CompareTag ("enemy") && this.CompareTag("Player") && !invincible) {
             //get damage
 			//Debug.Log("playerhit");
             EnemyControler eC = other.GetComponentInParent<EnemyControler>();

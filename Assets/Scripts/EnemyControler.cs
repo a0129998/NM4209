@@ -19,7 +19,7 @@ public class EnemyControler : MonoBehaviour {
 		gameManager = GameObject.Find ("GameManager");
 		gm = gameManager.GetComponent<GameManager> ();
 		s = 5.0f;
-		hp = maxHp;
+		this.hp = maxHp;
 	}
 	
 	// Update is called once per frame
@@ -34,12 +34,15 @@ public class EnemyControler : MonoBehaviour {
 
 		s -= Time.deltaTime;
 		if (s < 0) {
-			hp = Mathf.Min (hp + regen, maxHp);
+			this.hp = Mathf.Min (hp + regen, maxHp);
+			s = 5.0f;
 		}
 	}
 
 	public void isHit(int hpToRed){//reduce
-		hp -= hpToRed;
+		this.hp -= hpToRed;
+		Debug.Log ("reduced hp");
+		Debug.Log (this.hp);
 	}
 
 	public int getDamage(){
@@ -51,6 +54,6 @@ public class EnemyControler : MonoBehaviour {
 	}
 
 	public int getHp(){
-		return hp;
+		return this.hp;
 	}
 }

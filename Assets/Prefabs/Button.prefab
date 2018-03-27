@@ -177,6 +177,8 @@ MonoBehaviour:
   tooltip: {fileID: 114655807515776886}
   panel: {fileID: 0}
   thisButton: {fileID: 114471121105098152}
+  locked: {fileID: 21300000, guid: f50b5eb4628da414da5402b3cadf750d, type: 3}
+  notObtained: {fileID: 21300002, guid: f50b5eb4628da414da5402b3cadf750d, type: 3}
 --- !u!222 &222213924799999628
 CanvasRenderer:
   m_ObjectHideFlags: 1

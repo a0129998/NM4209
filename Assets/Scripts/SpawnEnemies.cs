@@ -60,6 +60,18 @@ public class SpawnEnemies : MonoBehaviour {
 
 		}
 
+		if (GameManager.debug) {
+			if (Input.GetKeyDown (KeyCode.Keypad0)) {
+				Instantiate (enemies [0], getRandomLocation (), Quaternion.identity);
+			}
+			if (Input.GetKeyDown (KeyCode.Keypad1)) {
+				Instantiate (enemies [1], getRandomLocation (), Quaternion.identity);
+			}
+			if (Input.GetKeyDown (KeyCode.Keypad2)) {
+				Instantiate (enemies [2], getRandomLocation (), Quaternion.identity);
+			}
+		}
+
 	}
 
 	Vector3 getRandomLocation(){
