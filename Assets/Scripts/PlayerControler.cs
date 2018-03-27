@@ -65,7 +65,7 @@ public class PlayerControler : MonoBehaviour {
     void OnTriggerEnter2D(Collider2D other){
         if (other.CompareTag ("enemy") && this.CompareTag("Player")) {
             //get damage
-			Debug.Log("playerhit");
+			//Debug.Log("playerhit");
             EnemyControler eC = other.GetComponentInParent<EnemyControler>();
             int damage = eC.getDamage ();
 			currentPlayerHp -= damage;

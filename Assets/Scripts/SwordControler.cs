@@ -46,6 +46,6 @@ public class SwordControler : MonoBehaviour {
 		Vector3 pos = mousePos - gm.getPlayerLocation();
 		//transform.eulerAngles = pos;
 		this.pos = new Vector3(pos.x, pos.y, 0.0f); 
-		Debug.Log (this.pos);
+		//Debug.Log (this.pos);
 	}
 }

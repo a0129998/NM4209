@@ -22,6 +22,8 @@ public class SkillTreePoint : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 	public GameObject panel;
 
 	public Button thisButton;
+	public Image notObtained;
+	public Image locked;
 	// Use this for initialization
 
 	void Start(){
@@ -30,6 +32,9 @@ public class SkillTreePoint : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 		activated = false;
 		tooltip.enabled = false;
 		panel.SetActive (false);
+		notObtained.enabled = false;
+		locked.enabled = false;
+
 	}
 	public void upgradePlayer(){
 		if (pC.metalOre > costInOre && canActivate()) {
@@ -44,8 +49,24 @@ public class SkillTreePoint : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 		}
 	}
 
+	void Update(){
+		if (!canActivate ()) {
+			locked.enabled = true;
+			notObtained.enabled = false;
+			return;
+		} else if (!activated) {
+			locked.enabled = false;
+			notObtained.enabled = true;
+			return;
+		} else {
+			locked.enabled = false;
+			notObtained.enabled = false;
+			return;
+		}
+
+	}
+
 	public bool canActivate(){
-		Debug.Log (gameObject.name);
 		switch (gameObject.name) {
 		case "2a":
 			return GameObject.Find ("1a").GetComponent<SkillTreePoint> ().activated;
@@ -75,6 +96,8 @@ public class SkillTreePoint : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 		tooltip.enabled = true;
 		panel.SetActive (true);
 		tooltip.transform.position = Input.mousePosition;
+		Debug.Log ("activated: " +activated);
+		Debug.Log ("can activate: " + canActivate());
 	}
 
 	public void OnPointerExit(PointerEventData p){
