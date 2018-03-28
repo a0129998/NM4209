@@ -80,12 +80,12 @@ public class GameManager : MonoBehaviour {
     }
     public void buyOre(){
         int oreTOBuy = mS.getOre ();
-		if (oreTOBuy * 10 <= p.gold) {
+		if (oreTOBuy * 10 <= p.gold && oreTOBuy > 0) {
             p.buyOre (oreTOBuy);
             p.removeGold (10 * oreTOBuy);
             mS.resetOreMenu ();
 		} else {
-			mS.warnNotEnoughGold ();
+			//mS.warnNotEnoughGold ();
 		}
     }
     public int checkOre(){
@@ -163,7 +163,7 @@ public class GameManager : MonoBehaviour {
 			if (Input.GetKeyDown (KeyCode.O)) {
 				this.p.metalOre += 10;
 			}
-		} 
+		}
     }
 
     public PlayerControler getpC(){
@@ -242,7 +242,7 @@ public class GameManager : MonoBehaviour {
             p.addHPCurrent (toBuy);
             mS.resethealth ();
 		} else {
-			mS.warnNotEnoughGold ();
+			//mS.warnNotEnoughGold ();
 		}
     }
 
@@ -253,7 +253,7 @@ public class GameManager : MonoBehaviour {
 			p.waveTimeLeft += timeToBuy;
             mS.resetTimeMenu ();
 		} else {
-			mS.warnNotEnoughGold ();
+			//mS.warnNotEnoughGold ();
 		}
     }
 }

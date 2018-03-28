@@ -35,8 +35,6 @@ public class SwordControler : MonoBehaviour {
 
 	void OnTriggerEnter2D(Collider2D col){
 		if (col.CompareTag ("enemy")) {
-			//tell player that enemy is hit
-			Debug.Log(col.gameObject.name);
 			player.hitEnemy(col.gameObject.GetComponent<EnemyControler>());
 		}
 	}

@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class menuScript : MonoBehaviour {
+	public GameObject player;
+	private PlayerControler pC;
 	//shop
 	public Text healthGold;
 	public Text healthEnd;
@@ -20,16 +22,13 @@ public class menuScript : MonoBehaviour {
 	public Button oreInc;
 	public Button oreDec;
 
-	public Button buyGold;
-	public Button buyTime;
-	public Button buyOre;
-
-	public Text notEnoughGold;
 	public Image blockOre;
 
 	private int hpGold, hp, timeGold, timeGain, oreGold, oreGain;
 	// Use this for initialization
 	void Start () {
+		pC = player.GetComponent<PlayerControler> ();//get player controller to access player attributes
+
 		hpGold = 0;
 		hp = 0;
 		healthGold.text = hpGold + " G";
@@ -50,14 +49,15 @@ public class menuScript : MonoBehaviour {
 		oreGoldT.text = oreGain + " Ore";
 		oreInc.onClick.AddListener (addOre);
 		oreDec.onClick.AddListener (reduceOre);
-		notEnoughGold.enabled = false;
 		blockOre.enabled = false;
 	}
 		
 
 	public void addOre(){
-		oreGold += 10;
-		oreGain++;
+		if (pC.gold >= 10) {//player has at least 10 gold, enough to buy the ore
+			oreGold += 10;
+			oreGain++;
+		}
 	}
 	public void reduceOre(){
 		oreGold = Mathf.Max (0, oreGold - 10);
@@ -65,8 +65,10 @@ public class menuScript : MonoBehaviour {
 	}
 
 	public void addTime(){
-		timeGain++;
-		timeGold++;
+		if (pC.gold >= 1) {
+			timeGain++;
+			timeGold++;
+		}
 	}
 	public void reduceTime(){
 		timeGold = Mathf.Max (0, timeGold - 1);
@@ -91,8 +93,10 @@ public class menuScript : MonoBehaviour {
 	}
 
 	public void addHealth(){
-		hpGold++;
-		hp++;//rate is 1 to 1
+		if(pC.gold >= 1){
+			hpGold++;
+			hp++;//rate is 1 to 1
+		}
 	}
 	public int hpToBuy(){
 		return hp;
@@ -117,7 +121,7 @@ public class menuScript : MonoBehaviour {
 		oreEndT.text = oreGain + " Ore";
 	}
 
-	public void warnNotEnoughGold(){
+/*	public void warnNotEnoughGold(){
 		StartCoroutine (warnNotEnoughGold (notEnoughGold));
 
 	}
@@ -128,4 +132,7 @@ public class menuScript : MonoBehaviour {
 		notEnoughGold.enabled = false;
 		Start ();
 	}
+	note: this function seem to cause the amount duplicate issue
+	*/
+
 }

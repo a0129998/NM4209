@@ -15,8 +15,8 @@ public class SkillTreePoint : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 	public float critAdd;
 	public int totalHPAdd;
 	public bool poison;//not implemented
-	public float MSAdd;//not implemented
-	public float ASAdd;//not implemented
+	public float MSAdd;//multiplication
+	public float ASAdd;//multiplication
 
 	public Text tooltip;
 	public GameObject panel;
@@ -27,6 +27,7 @@ public class SkillTreePoint : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 	private Image buttonImg;
 	public Sprite locked;
 	public Sprite notObtained;
+	public Sprite obtained;
 	// Use this for initialization
 
 	void Start(){
@@ -46,26 +47,33 @@ public class SkillTreePoint : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 			pC.attack += atkAdd;
 			pC.hpRegenPer5Sec += hpReg;
 			pC.maxPlayerHp += totalHPAdd;
-			pC.critRate *= critAdd;
-			pC.playerSpeed += MSAdd;
-			pC.atkSpd += ASAdd;
+			pC.playerSpeed = Mathf.Max (pC.playerSpeed * MSAdd, pC.playerSpeed);
+			pC.atkSpd = Mathf.Max (pC.atkSpd * ASAdd, pC.atkSpd);
+			pC.critRate = Mathf.Max (pC.critRate * critAdd, pC.critRate);
 			activated = true;
 		}
 	}
 
 	void Update(){
+		tooltipFollowMouse ();
+		buttonStateUpdate ();
+	}
+
+	private void tooltipFollowMouse(){
+		if (tooltip.enabled) {
+			tooltip.transform.position = Input.mousePosition;
+		}
+	}
+	private void buttonStateUpdate(){
 		if (!canActivate ()) {
 			buttonImg.sprite = locked;
-			return;
 		} else if (!activated) {
 			buttonImg.sprite = notObtained;
-			return;
 		} else {
-			buttonImg.enabled = false;//no sprite
-			return;
-		}
-
+			buttonImg.sprite = obtained;
+		}		
 	}
+
 
 	public bool canActivate(){
 		switch (gameObject.name) {
@@ -94,12 +102,11 @@ public class SkillTreePoint : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 	}
 
 	public void OnPointerEnter(PointerEventData p){
-		tooltip.enabled = true;
-		panel.SetActive (true);
-		tooltip.transform.position = Input.mousePosition;
-		Debug.Log ("activated: " +activated);
-		Debug.Log ("can activate: " + canActivate());
+		//tooltip.enabled = true;
+		//panel.SetActive (true);
+		//tooltip.transform.position = Input.mousePosition;
 	}
+
 
 	public void OnPointerExit(PointerEventData p){
 		tooltip.enabled = false;

@@ -41,8 +41,6 @@ public class EnemyControler : MonoBehaviour {
 
 	public void isHit(int hpToRed){//reduce
 		this.hp -= hpToRed;
-		Debug.Log ("reduced hp");
-		Debug.Log (this.hp);
 	}
 
 	public int getDamage(){
