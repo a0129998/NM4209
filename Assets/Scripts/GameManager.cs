@@ -159,7 +159,11 @@ public class GameManager : MonoBehaviour {
         }
         playerLocation = player.transform.position;
         //display
-
+		if(debug){
+			if (Input.GetKeyDown (KeyCode.O)) {
+				this.p.metalOre += 10;
+			}
+		} 
     }
 
     public PlayerControler getpC(){

@@ -41,7 +41,7 @@ public class SkillTreePoint : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
 	}
 	public void upgradePlayer(){
-		if (pC.metalOre > costInOre && canActivate()) {
+		if (pC.metalOre >= costInOre && canActivate()) {
 			pC.metalOre -= costInOre;
 			pC.attack += atkAdd;
 			pC.hpRegenPer5Sec += hpReg;
