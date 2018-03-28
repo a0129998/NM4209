@@ -42,7 +42,8 @@ public class SkillTreePoint : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 		//notObtained.enabled = false;
 		//locked.enabled = false;
 		buttonImg = gameObject.GetComponent<Image>();
-
+		rightOffset = tooltip.GetPixelAdjustedRect ().width;
+		downOffset = tooltip.GetPixelAdjustedRect ().height;
 	}
 	public void upgradePlayer(){
 		if (pC.metalOre >= costInOre && canActivate()) {

@@ -7,9 +7,9 @@
       <File FileName="Assets\Scripts\EnemyControler.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\SwordControler.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\SpawnEnemies.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\menuScript.cs" Line="96" Column="18" />
+      <File FileName="Assets\Scripts\menuScript.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\blackSmithScript.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\SkillTreePoint.cs" Line="110" Column="26" />
+      <File FileName="Assets\Scripts\SkillTreePoint.cs" Line="46" Column="55" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
