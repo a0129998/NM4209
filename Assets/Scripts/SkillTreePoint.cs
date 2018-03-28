@@ -51,6 +51,7 @@ public class SkillTreePoint : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 			pC.attack += atkAdd;
 			pC.hpRegenPer5Sec += hpReg;
 			pC.maxPlayerHp += totalHPAdd;
+			pC.currentPlayerHp += hpAdd;
 			pC.playerSpeed = Mathf.Max (pC.playerSpeed * MSAdd, pC.playerSpeed);
 			pC.atkSpd = Mathf.Max (pC.atkSpd * ASAdd, pC.atkSpd);
 			pC.critRate = Mathf.Max (pC.critRate * critAdd, pC.critRate);

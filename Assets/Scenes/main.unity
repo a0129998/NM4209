@@ -146,7 +146,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   activated: 0
   player: {fileID: 1305162559}
-  hpAdd: 0
+  hpAdd: 15
   hpReg: 0
   costInOre: 10
   atkAdd: 2
@@ -2265,7 +2265,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   activated: 0
   player: {fileID: 1305162559}
-  hpAdd: 0
+  hpAdd: 10
   hpReg: 0
   costInOre: 10
   atkAdd: 7
@@ -2393,7 +2393,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   activated: 0
   player: {fileID: 1305162559}
-  hpAdd: 0
+  hpAdd: 20
   hpReg: 1
   costInOre: 10
   atkAdd: 0
@@ -3739,7 +3739,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   activated: 0
   player: {fileID: 1305162559}
-  hpAdd: 0
+  hpAdd: 40
   hpReg: 4
   costInOre: 20
   atkAdd: 0
@@ -4384,11 +4384,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   activated: 0
   player: {fileID: 1305162559}
-  hpAdd: 0
+  hpAdd: 20
   hpReg: 0
   costInOre: 20
   atkAdd: 0
-  critAdd: 0
+  critAdd: 20
   totalHPAdd: 0
   poison: 0
   MSAdd: 1.1
@@ -5192,7 +5192,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   activated: 0
   player: {fileID: 1305162559}
-  hpAdd: 0
+  hpAdd: 30
   hpReg: 3
   costInOre: 10
   atkAdd: 0
@@ -6453,7 +6453,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   activated: 0
   player: {fileID: 1305162559}
-  hpAdd: 0
+  hpAdd: 25
   hpReg: 2
   costInOre: 15
   atkAdd: 0
