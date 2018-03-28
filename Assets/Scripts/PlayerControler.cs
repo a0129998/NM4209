@@ -57,7 +57,11 @@ public class PlayerControler : MonoBehaviour {
 		}
     }
 	IEnumerator aO(int toAdd, menuScript mS){
+		
 		mS.blockOre.enabled = true;
+		while (isPlayerPaused) {
+			yield return null;
+		}
         yield return new WaitForSeconds (10);//wait 10 secs
         metalOre += toAdd;
 		mS.blockOre.enabled = false;

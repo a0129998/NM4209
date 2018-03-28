@@ -46,7 +46,7 @@ public class SkillTreePoint : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 		downOffset = tooltip.GetPixelAdjustedRect ().height;
 	}
 	public void upgradePlayer(){
-		if (pC.metalOre >= costInOre && canActivate()) {
+		if (pC.metalOre >= costInOre && canActivate() && !activated) {
 			pC.metalOre -= costInOre;
 			pC.attack += atkAdd;
 			pC.hpRegenPer5Sec += hpReg;
