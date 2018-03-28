@@ -54,7 +54,7 @@ public class menuScript : MonoBehaviour {
 		
 
 	public void addOre(){
-		if (pC.gold >= 10) {//player has at least 10 gold, enough to buy the ore
+		if (pC.gold >= (oreGold + 10)) {//player has at least 10 gold, enough to buy the ore
 			oreGold += 10;
 			oreGain++;
 		}
@@ -65,7 +65,7 @@ public class menuScript : MonoBehaviour {
 	}
 
 	public void addTime(){
-		if (pC.gold >= 1) {
+		if (pC.gold >= (timeGold+1)) {
 			timeGain++;
 			timeGold++;
 		}
@@ -93,7 +93,7 @@ public class menuScript : MonoBehaviour {
 	}
 
 	public void addHealth(){
-		if(pC.gold >= 1){
+		if(pC.gold >= (hpGold + 1)){
 			hpGold++;
 			hp++;//rate is 1 to 1
 		}

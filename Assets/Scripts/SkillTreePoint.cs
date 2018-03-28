@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class SkillTreePoint : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler {
+public class SkillTreePoint : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler{
 	public bool activated;
 	public GameObject player;
 	private PlayerControler pC;
@@ -28,6 +28,9 @@ public class SkillTreePoint : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 	public Sprite locked;
 	public Sprite notObtained;
 	public Sprite obtained;
+
+	public float rightOffset;
+	public float downOffset;
 	// Use this for initialization
 
 	void Start(){
@@ -61,7 +64,7 @@ public class SkillTreePoint : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
 	private void tooltipFollowMouse(){
 		if (tooltip.enabled) {
-			tooltip.transform.position = Input.mousePosition;
+			tooltip.transform.position = Input.mousePosition + new Vector3(rightOffset, -1 * downOffset, 0.0f);
 		}
 	}
 	private void buttonStateUpdate(){
@@ -101,16 +104,16 @@ public class SkillTreePoint : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 		}
 	}
 
+
 	public void OnPointerEnter(PointerEventData p){
-		//tooltip.enabled = true;
-		//panel.SetActive (true);
-		//tooltip.transform.position = Input.mousePosition;
+		tooltip.enabled = true;
+		panel.SetActive (true);
 	}
-
-
 	public void OnPointerExit(PointerEventData p){
+
 		tooltip.enabled = false;
 		panel.SetActive (false);
 	}
+		
 
 }
