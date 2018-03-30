@@ -1,4 +1,4 @@
-WindowsStandalone
+OSXStandalone
 SceneListBegin?
 Assets/Scenes/main.unity
 SceneListEnd?
@@ -144,6 +144,6 @@ bc68edb0af574bf79f9550ead8ebae5c UnityEngine.HoloLens.dll:UnityEngine.Audio.Audi
 463516d5b5fe8e67a0a24c48f2095b04 UnityEngine.HoloLens.dll:UnityEngine.EventSystems.HoloLensInputModule
 c2275a8bfbb9f9942cad75ecdfded41d UnityEngine.HoloLens.dll:UnityEngine.XR.WSA.SpatialMappingCollider
 45f3431f0103c41611e8d4eec3d439df UnityEngine.HoloLens.dll:UnityEngine.XR.WSA.SpatialMappingRenderer
-acb93f1acc94eeab829ebf6cd957c124 Assembly-CSharp.dll:.PlayerControler
+3492f3d86cf2bd208df928d94a077fab Assembly-CSharp.dll:.PlayerControler
 9de3a22eca9aefadba2d10d5987cefe3 UnityEngine.SpatialTracking.dll:UnityEngine.SpatialTracking.TrackedPoseDriver
-9b0bb336602287972018e0518e1a924f Assembly-CSharp.dll:.SwordControler
+e77ee4fecaefed1fb1bc89e1d0e70589 Assembly-CSharp.dll:.SwordControler

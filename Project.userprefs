@@ -1,15 +1,15 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\SkillTreePoint.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\SwordControler.cs">
     <Files>
-      <File FileName="Assets\Scripts\PlayerControler.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\PlayerControler.cs" Line="18" Column="43" />
       <File FileName="Assets\Scripts\GameManager.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\EnemyControler.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\SwordControler.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\SwordControler.cs" Line="23" Column="30" />
       <File FileName="Assets\Scripts\SpawnEnemies.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\menuScript.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\blackSmithScript.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\SkillTreePoint.cs" Line="54" Column="32" />
+      <File FileName="Assets\Scripts\SkillTreePoint.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

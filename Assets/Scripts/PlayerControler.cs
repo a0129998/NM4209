@@ -15,6 +15,7 @@ public class PlayerControler : MonoBehaviour {
     public int attack;
     public float critDamageMultiplier;
     public float atkSpd;
+	public float atkAngle; //0 to 360 degrees
     public float slashDegrees;
 
 

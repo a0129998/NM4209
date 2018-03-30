@@ -6,29 +6,33 @@ public class SwordControler : MonoBehaviour {
 	public GameObject gameManager;
 	private GameManager gm;
 	private PlayerControler player;
-	private float t;
 	private float atkSpd;
 	private float pT;
-	private float angleStart;
-	private float angleEnd;
+	private bool isSlashing;//player cannot slash when is slashing
+	private Quaternion originalLocalRotate;
+	private float atkAngle;//angle to swing
+	private float atkAngleCounter;
 
-
-	public Vector3 pos;
 	// Use this for initialization
 	void Start () {
 		gameObject.SetActive (false);//only active when called
 		gm = gameManager.GetComponent<GameManager> ();
-		t = 0.0f;
 		player = gameObject.GetComponentInParent<PlayerControler> ();
 		atkSpd = player.atkSpd;
+		isSlashing = false;
+		atkAngle = player.atkAngle;
+		originalLocalRotate = transform.localRotation;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		if (t > 0) {
-			t -= Time.deltaTime;
-			transform.localRotation = Quaternion.Euler (new Vector3 (0.0f, 0.0f, t * atkSpd));
-		} else {
+		if ( atkAngleCounter > 0) {
+			atkAngleCounter -= Time.deltaTime * atkSpd;
+			transform.Rotate (Vector3.back * Time.deltaTime * atkSpd);
+		} else if(isSlashing){
+			//just finished slashing
+			isSlashing = false;
+			transform.localRotation = originalLocalRotate;
 			gameObject.SetActive (false);
 		}
 	}
@@ -40,11 +44,23 @@ public class SwordControler : MonoBehaviour {
 	}
 
 	public void cutTrigger(){
-		t = 1.0f;
-		Vector3 mousePos = Camera.main.ScreenToWorldPoint( Input.mousePosition);
-		Vector3 pos = mousePos - gm.getPlayerLocation();
-		//transform.eulerAngles = pos;
-		this.pos = new Vector3(pos.x, pos.y, 0.0f); 
-		//Debug.Log (this.pos);
+		if(!isSlashing){
+			isSlashing = true;
+			Vector3 mousePos = Camera.main.ScreenToWorldPoint( Input.mousePosition);
+			Vector3 pos = mousePos - gm.getPlayerLocation();
+			pos.z = 0.0f;//set z value to 0
+			//set sword to be pointing towards the mouse
+			float angleFromXAxis = Vector3.Angle(Vector3.right, pos);//positive angle from x axis
+			//Debug.Log (angleFromXAxis);
+			if (pos.y > 0) {
+				//rotate clockwise
+				transform.Rotate(new Vector3(0.0f, 0.0f, angleFromXAxis - 90.0f));
+			} else {
+				transform.Rotate(new Vector3(0.0f, 0.0f, angleFromXAxis * -1 - 90.0f));
+			}
+			//rotate half of atk angle anticlockwise
+			transform.Rotate(new Vector3(0.0f, 0.0f, atkAngle/2.0f));
+			atkAngleCounter = atkAngle;
+		}
 	}
 }
