@@ -1,4 +1,4 @@
-OSXStandalone
+WindowsStandalone
 SceneListBegin?
 Assets/Scenes/main.unity
 SceneListEnd?
@@ -119,7 +119,7 @@ aa6418c622b7c8e6300b1bcffa160f1e Assembly-CSharp.dll:.vanishingNumbers
 3f76df793587a188b2a78046b189bb7e Assembly-CSharp.dll:.SkillTreePoint
 05524b8f659e7bfe5756d1335fec24ba UnityEngine.Advertisements.dll:UnityEngine.Advertisements.CallbackExecutor
 05524b8f659e7bfe5756d1335fec24ba UnityEngine.Advertisements.dll:UnityEngine.Advertisements.Editor.Placeholder
-39ff368aaf0f936595279fa78570c649 Assembly-CSharp.dll:.GameManager
+56691eb70c21498e4472009fb45a6cb4 Assembly-CSharp.dll:.GameManager
 90069e45a4aef1028809fca0a53658b6 Assembly-CSharp.dll:.menuScript
 fa0d32c53f04701619ae0dc2a648fb4a Assembly-CSharp.dll:.coins
 fc1e0f4d8439d9928083474691511a13 UnityEngine.Networking.dll:UnityEngine.Networking.NetworkAnimator

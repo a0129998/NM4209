@@ -35,7 +35,6 @@ public class GameManager : MonoBehaviour {
     //display
 	public Text gold;
 	public Text ore;
-	public Image healthBar;
 	public Text time;
 
     public bool isPaused;
@@ -56,6 +55,9 @@ public class GameManager : MonoBehaviour {
 
 	public Text progressMsgs;
 	private Color originalProgressMsgsColor;
+
+	public Button blackSmithTabBtn;
+	public Button shopTabBtn;
 
 	IEnumerator fadeSlowly(Text t){
 		float totalFadeTime = 2.0f;
@@ -89,9 +91,22 @@ public class GameManager : MonoBehaviour {
 		originalProgressMsgsColor = progressMsgs.color;
 		progressMsgs.color = Color.clear;
 
+		shopTabBtn.onClick.AddListener (shopTab);
+		blackSmithTabBtn.onClick.AddListener (blackSmithTab);
+
 		initialise (0);
 
     }
+
+	public void shopTab(){
+		blackSmithBackRun ();
+		showMenu ();
+	}
+	public void blackSmithTab(){
+		unpause ();
+		blackSmith ();
+	}
+
 	public void pauseResume(){
 		if (isPaused) {
 			unpause2 ();
