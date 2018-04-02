@@ -6,6 +6,11 @@ TagManager:
   tags:
   - enemy
   - sword
+  - right
+  - rightwall
+  - leftwall
+  - upwall
+  - downwall
   layers:
   - Default
   - TransparentFX
@@ -15,7 +20,7 @@ TagManager:
   - UI
   - 
   - 
-  - 
+  - Player
   - 
   - 
   - 
@@ -42,4 +47,10 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: player
+    uniqueID: 2280273005
+    locked: 0
+  - name: buttonCanvas
+    uniqueID: 2376787759
     locked: 0

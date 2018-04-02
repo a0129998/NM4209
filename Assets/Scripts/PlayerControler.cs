@@ -17,6 +17,8 @@ public class PlayerControler : MonoBehaviour {
     public float atkSpd;
 	public float atkAngle; //0 to 360 degrees
     public float slashDegrees;
+	public GameObject healthBarObject;
+	private Image healthBar;
 
 
     public GameObject sword;
@@ -40,6 +42,16 @@ public class PlayerControler : MonoBehaviour {
 	private float s;
 
 	public bool invincible;
+	public int hpBlink;//times to blink
+
+
+	//detect walls
+	private bool contactLeft;
+	private bool contactRight;
+	private bool contactUp;
+	private bool contactDown;
+
+	public GameObject vanishingText;
 
 
     void Start(){
@@ -48,6 +60,7 @@ public class PlayerControler : MonoBehaviour {
 		sR = gameObject.GetComponent<SpriteRenderer> ();
 		mS = mScript.GetComponent<menuScript> ();
 		s = 5.0f;
+		healthBar = healthBarObject.GetComponent<Image> ();
     }
 
     public void buyOre(int toBuy){
@@ -59,25 +72,78 @@ public class PlayerControler : MonoBehaviour {
     }
 	IEnumerator aO(int toAdd, menuScript mS){
 		
-		mS.blockOre.enabled = true;
+		mS.blockOre.gameObject.SetActive (true);
+		float timer = 10.0f;
+		mS.oreTimeText.gameObject.SetActive(true);
+		mS.oreTimeText2.gameObject.SetActive (true);
+		mS.oreTimeText.text = Mathf.Floor (timer).ToString();
 		while (isPlayerPaused) {
 			yield return null;
 		}
-        yield return new WaitForSeconds (10);//wait 10 secs
-        metalOre += toAdd;
-		mS.blockOre.enabled = false;
+        //yield return new WaitForSeconds (10);//wait 10 secs
+
+		while (timer >= 0.0f) {
+			yield return new WaitForFixedUpdate();
+			timer -= Time.deltaTime;
+			mS.oreTimeText.text = Mathf.Floor (timer).ToString();
+		}
+		mS.oreStored = toAdd;
+		mS.blockOre.gameObject.SetActive (false);
+		mS.oreTimeText.gameObject.SetActive(false);
+		mS.oreTimeText2.gameObject.SetActive (false);
+		yield return null;
     }
+	IEnumerator blinkHealthBar(){
+		for (int i = 0; i < hpBlink; i++) {
+			yield return new WaitForFixedUpdate ();
+			healthBar.enabled = !healthBar.enabled;
+		}
+		healthBar.enabled = true;
+		yield return null;
+	}
 
 
     void OnTriggerEnter2D(Collider2D other){
-		if (other.CompareTag ("enemy") && this.CompareTag("Player") && !invincible) {
-            //get damage
-			//Debug.Log("playerhit");
-            EnemyControler eC = other.GetComponentInParent<EnemyControler>();
-            int damage = eC.getDamage ();
-			currentPlayerHp -= damage;
-        }
+		//Debug.Log ("player hit the " + other.gameObject.tag);
+		if (isPlayerAlive) {
+			if (other.CompareTag ("enemy") && this.CompareTag ("Player") && !invincible) {
+				//get damage
+				Debug.Log ("playerhit");
+				StartCoroutine (blinkHealthBar ());
+				EnemyControler eC = other.GetComponentInParent<EnemyControler> ();
+				int damage = eC.getDamage ();
+				currentPlayerHp -= damage;
+				spawnVanishingTextWithWords ("-" + damage);
+			}
+			if (other.CompareTag ("leftwall") && this.CompareTag ("Player")) {
+				contactLeft = true;
+			}
+			if (other.CompareTag ("rightwall") && this.CompareTag ("Player")) {
+				contactRight = true;
+			}
+			if (other.CompareTag ("upwall") && this.CompareTag ("Player")) {
+				contactUp = true;
+			}
+			if (other.CompareTag ("downwall") && this.CompareTag ("Player")) {
+				contactDown = true;
+			}
+		}
     }
+
+	void OnTriggerExit2D(Collider2D other){
+		if (other.CompareTag ("leftwall") && this.CompareTag ("Player")) {
+			contactLeft = false;
+		}
+		if (other.CompareTag ("rightwall") && this.CompareTag ("Player")) {
+			contactRight = false;
+		}
+		if (other.CompareTag ("upwall") && this.CompareTag ("Player")) {
+			contactUp = false;
+		}
+		if (other.CompareTag ("downwall") && this.CompareTag ("Player")) {
+			contactDown = false;
+		}
+	}
 
     // Update is called once per frame
     void Update () {
@@ -87,6 +153,9 @@ public class PlayerControler : MonoBehaviour {
         if (!isPlayerAlive){
             return;//dead player does not move
         }
+		//healthbar
+		healthBar.fillAmount = (float)currentPlayerHp/(float)maxPlayerHp;
+
         //movement
 		if (currentPlayerHp <= 0){//dead
             this.isPlayerAlive = false;
@@ -98,6 +167,18 @@ public class PlayerControler : MonoBehaviour {
         float vertical = Input.GetAxis ("Vertical");
         float horizontal = Input.GetAxis ("Horizontal");
 		Vector2 movement = new Vector2 (horizontal * playerSpeed, vertical * playerSpeed);
+		if (contactLeft) {
+			movement.x = Mathf.Max (movement.x, 0.0f);
+		}
+		if (contactRight) {
+			movement.x = Mathf.Min (movement.x, 0.0f);
+		}
+		if (contactDown) {
+			movement.y = Mathf.Max (movement.y, 0.0f);
+		}
+		if (contactUp) {
+			movement.y = Mathf.Min (movement.y, 0.0f);
+		}
         gameObject.transform.Translate (movement);
 
         //attack
@@ -158,16 +239,25 @@ public class PlayerControler : MonoBehaviour {
     public void hitEnemy(EnemyControler eC){
 		int effectiveAtk = attack;
 		if (Random.Range(0.0f, 1.0f) < critRate) {
-			effectiveAtk = (int)(1.5f *  (float)effectiveAtk);//add crit rate later
+			effectiveAtk = (int)(critDamageMultiplier *  (float)effectiveAtk);//add crit rate later
 		}
 		eC.isHit (effectiveAtk);
         if (eC.getHp () <= 0) {
             SpawnEnemies.numEnemies--;
 			gold += eC.goldDropped;
-            Destroy (eC.gameObject);
+			eC.dies ();
         }
 
     }
+
+	public void spawnVanishingTextWithWords(string words){
+		Debug.Log ("spawn vanishing words");
+		GameObject vText = (GameObject)Instantiate (vanishingText, gameObject.transform.position, Quaternion.identity);
+		vanishingNumbers vT = vText.GetComponentInChildren<vanishingNumbers> ();
+		vT.text.text = words;
+		vT.text.color = Color.red;
+		vT.transform.position = gameObject.transform.position;
+	}
 }
 
 

@@ -13,6 +13,7 @@ public class SkillTreePoint : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 	public int costInOre;
 	public int atkAdd;
 	public float critAdd;
+	public float critDamageMultiplyerMultiplyer;
 	public int totalHPAdd;
 	public bool poison;//not implemented
 	public float MSAdd;//multiplication
@@ -55,6 +56,7 @@ public class SkillTreePoint : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 			pC.playerSpeed = Mathf.Max (pC.playerSpeed * MSAdd, pC.playerSpeed);
 			pC.atkSpd = Mathf.Max (pC.atkSpd * ASAdd, pC.atkSpd);
 			pC.critRate = Mathf.Max (pC.critRate * critAdd, pC.critRate);
+			pC.critDamageMultiplier = Mathf.Max (pC.critDamageMultiplier * critDamageMultiplyerMultiplyer, pC.critDamageMultiplier);
 			activated = true;
 		}
 	}

@@ -2,7 +2,7 @@ OSXStandalone
 SceneListBegin?
 Assets/Scenes/main.unity
 SceneListEnd?
-6f4c0678869f595c45c96969a7560d1c Assembly-CSharp.dll:.SpawnEnemies
+2d36f442e17c546cd0b3358e67ac719d Assembly-CSharp.dll:.SpawnEnemies
 05524b8f659e7bfe5756d1335fec24ba UnityEngine.Timeline.dll:UnityEngine.Timeline.ActivationPlayableAsset
 dbc29a6f2739d277c10da432d73adb6d UnityEngine.Timeline.dll:UnityEngine.Timeline.ActivationTrack
 8144169769d51429c4aedc8b0f92d47b UnityEngine.Timeline.dll:UnityEngine.Timeline.AnimationPlayableAsset
@@ -80,7 +80,7 @@ c63db43c730fa2cbb8ca07de15898cb6 UnityEngine.UI.dll:UnityEngine.UI.Toggle
 f61c0793411f10cf5fbfa1473fef5ef2 UnityEngine.UI.dll:UnityEngine.UI.ToggleGroup
 86d36c43c53541d667100dc90b89cfba UnityEngine.UI.dll:UnityEngine.EventSystems.TouchInputModule
 1b8c02d0aa82fbf036a2b9b2d713eec3 UnityEngine.UI.dll:UnityEngine.UI.VerticalLayoutGroup
-764684938ff8faa1731156328de21add Assembly-CSharp.dll:.EnemyControler
+84ce8ac4f4761d8ca520f7a0f0ce8990 Assembly-CSharp.dll:.EnemyControler
 05524b8f659e7bfe5756d1335fec24ba UnityEngine.Timeline.dll:UnityEngine.Timeline.ActivationPlayableAsset
 dbc29a6f2739d277c10da432d73adb6d UnityEngine.Timeline.dll:UnityEngine.Timeline.ActivationTrack
 8144169769d51429c4aedc8b0f92d47b UnityEngine.Timeline.dll:UnityEngine.Timeline.AnimationPlayableAsset
@@ -115,11 +115,13 @@ bc68edb0af574bf79f9550ead8ebae5c UnityEngine.HoloLens.dll:UnityEngine.Audio.Audi
 463516d5b5fe8e67a0a24c48f2095b04 UnityEngine.HoloLens.dll:UnityEngine.EventSystems.HoloLensInputModule
 c2275a8bfbb9f9942cad75ecdfded41d UnityEngine.HoloLens.dll:UnityEngine.XR.WSA.SpatialMappingCollider
 45f3431f0103c41611e8d4eec3d439df UnityEngine.HoloLens.dll:UnityEngine.XR.WSA.SpatialMappingRenderer
-4fa1fd4a096a7861892cd5442db6f842 Assembly-CSharp.dll:.SkillTreePoint
+aa6418c622b7c8e6300b1bcffa160f1e Assembly-CSharp.dll:.vanishingNumbers
+3f76df793587a188b2a78046b189bb7e Assembly-CSharp.dll:.SkillTreePoint
 05524b8f659e7bfe5756d1335fec24ba UnityEngine.Advertisements.dll:UnityEngine.Advertisements.CallbackExecutor
 05524b8f659e7bfe5756d1335fec24ba UnityEngine.Advertisements.dll:UnityEngine.Advertisements.Editor.Placeholder
-43cd9d589f21205fc7174164b962e705 Assembly-CSharp.dll:.GameManager
-9c6574401b10b8bacc22c5a69a5f9245 Assembly-CSharp.dll:.menuScript
+39ff368aaf0f936595279fa78570c649 Assembly-CSharp.dll:.GameManager
+90069e45a4aef1028809fca0a53658b6 Assembly-CSharp.dll:.menuScript
+fa0d32c53f04701619ae0dc2a648fb4a Assembly-CSharp.dll:.coins
 fc1e0f4d8439d9928083474691511a13 UnityEngine.Networking.dll:UnityEngine.Networking.NetworkAnimator
 05524b8f659e7bfe5756d1335fec24ba UnityEngine.Networking.dll:UnityEngine.Networking.NetworkBehaviour
 60b2bb652410a5867a5ab9a01cd38461 UnityEngine.Networking.dll:UnityEngine.Networking.NetworkDiscovery
@@ -144,6 +146,7 @@ bc68edb0af574bf79f9550ead8ebae5c UnityEngine.HoloLens.dll:UnityEngine.Audio.Audi
 463516d5b5fe8e67a0a24c48f2095b04 UnityEngine.HoloLens.dll:UnityEngine.EventSystems.HoloLensInputModule
 c2275a8bfbb9f9942cad75ecdfded41d UnityEngine.HoloLens.dll:UnityEngine.XR.WSA.SpatialMappingCollider
 45f3431f0103c41611e8d4eec3d439df UnityEngine.HoloLens.dll:UnityEngine.XR.WSA.SpatialMappingRenderer
-3492f3d86cf2bd208df928d94a077fab Assembly-CSharp.dll:.PlayerControler
+2ab8b49fbd8f42be23c165097b351995 Assembly-CSharp.dll:.PlayerControler
+7ec4a468f95961d0b3e441204d837d3a Assembly-CSharp.dll:.mainCanvas
 9de3a22eca9aefadba2d10d5987cefe3 UnityEngine.SpatialTracking.dll:UnityEngine.SpatialTracking.TrackedPoseDriver
 e77ee4fecaefed1fb1bc89e1d0e70589 Assembly-CSharp.dll:.SwordControler

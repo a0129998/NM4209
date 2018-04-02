@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour {
     }
 
 	public static bool debug = true;
+	public static bool enemiesMove = true;
 
     public GameObject player;
     private PlayerControler p;
@@ -48,36 +49,56 @@ public class GameManager : MonoBehaviour {
     public Button menuBtn;
     public Canvas menuCanvas;
     public Canvas usualCanvas;
-    public Button goldToHealth;
-    public Button goldToTime;
     public Button goldToOre;
     public Button blackSmithButton;
     public Canvas blackSmithCanvas;
+	public Button pauseBtn;
 
-	public Button exchangeMenuBtn;//opens exchange menu
+	public Text progressMsgs;
+	private Color originalProgressMsgsColor;
 
-    //blacksmithoptions
+	IEnumerator fadeSlowly(Text t){
+		float totalFadeTime = 2.0f;
+		Color originalColour = t.color;
+		while (totalFadeTime > 0) {
+			totalFadeTime -= Time.deltaTime;
+			yield return new WaitForFixedUpdate ();
+			t.color = Color.Lerp (originalColour, Color.clear, 1.0f - totalFadeTime);
 
+		}
+		t.color = Color.clear;
+		yield return null;
+	}
 
     // Use this for initialization
     void Start () {
         playerLocation = player.transform.position;
         p = player.GetComponent<PlayerControler> ();
         currLevel = 0;
-        initialise (0);
+        
         isBetweenLevels = false;
         betweenLevelsWaitingTime = 0.0f;
         mS = menuCanvas.GetComponent<menuScript> ();
 
         menuBtn.onClick.AddListener (showMenu);
-        goldToHealth.onClick.AddListener (changeGoldToHealth);
-        goldToTime.onClick.AddListener (changeGoldToTime);
         blackSmithButton.onClick.AddListener (blackSmith);
         goldToOre.onClick.AddListener (buyOre);
+		pauseBtn.onClick.AddListener (pauseResume);
         menuCanvas.enabled = false;
         blackSmithCanvas.enabled = false;
+		originalProgressMsgsColor = progressMsgs.color;
+		progressMsgs.color = Color.clear;
+
+		initialise (0);
 
     }
+	public void pauseResume(){
+		if (isPaused) {
+			unpause2 ();
+		} else {
+			pauseGame ();
+		}
+	}
     public void buyOre(){
         int oreTOBuy = mS.getOre ();
 		if (oreTOBuy * 10 <= p.gold && oreTOBuy > 0) {
@@ -95,7 +116,6 @@ public class GameManager : MonoBehaviour {
 		pauseGame ();
         blackSmithCanvas.enabled = true;
         menuCanvas.enabled = false;
-        //usualCanvas.enabled = false;
     }
     public void blackSmithBackRun(){
         blackSmithCanvas.enabled = false;
@@ -105,7 +125,6 @@ public class GameManager : MonoBehaviour {
 
     void showMenu(){
         pauseGame ();
-        //usualCanvas.enabled = false;
         menuBtn.enabled = false;
         menuCanvas.enabled = true;
     }
@@ -130,18 +149,26 @@ public class GameManager : MonoBehaviour {
 		EnemyControler.isPaused = false;
 	}
 
-
-    
-    // Update is called once per frame
     public void setWaitingTime(){
         betweenLevelsWaitingTime = 5.0f;
 		p.isTimePaused = true;
+		useProgressMsgs ("CurrentLevelOver");
     }
+
+	public void useProgressMsgs(string str){
+		progressMsgs.color = originalProgressMsgsColor;
+		progressMsgs.text = str;
+		StartCoroutine (fadeSlowly (progressMsgs));
+	}
     void Update () {
+		if (p.waveTimeLeft < 0) {
+			//gameover
+			useProgressMsgs("Time Ran Out");
+			pauseGame ();
+		}
 		gold.text = p.gold.ToString();
 		ore.text = p.metalOre.ToString();
-		healthBar.fillAmount = ((float)p.currentPlayerHp / (float)p.maxPlayerHp);
-		time.text = "Time Left: " + p.waveTimeLeft;
+		time.text = "Time Left: " + Mathf.Ceil(p.waveTimeLeft);
 		if (Input.GetKeyDown (KeyCode.Escape)) {
 			unpause ();
 		}
@@ -156,6 +183,7 @@ public class GameManager : MonoBehaviour {
             initialiseNext ();
             isBetweenLevels = false;
 			p.isTimePaused = false;
+
         }
         playerLocation = player.transform.position;
         //display
@@ -176,6 +204,8 @@ public class GameManager : MonoBehaviour {
 
     private void initialise(int level){
         //hard code level 1
+		useProgressMsgs ("Level " + level + " Start!");
+		level = level % 11;
         switch (level){
 		case 0:
 			p.waveTimeLeft = 40;
@@ -229,31 +259,10 @@ public class GameManager : MonoBehaviour {
         if (++currLevel <= maxLevel) {
             Debug.Log ("init level " + currLevel);
             initialise (currLevel); 
+
         } else {
             Debug.Log ("you won");
         }
     }
 
-    public void changeGoldToHealth(){
-        int toBuy = mS.hpToBuy ();
-        //check if legal
-		if (p.gold >= toBuy) {
-            p.removeGold (toBuy);
-            p.addHPCurrent (toBuy);
-            mS.resethealth ();
-		} else {
-			//mS.warnNotEnoughGold ();
-		}
-    }
-
-    public void changeGoldToTime(){
-        int timeToBuy = mS.timeToBuy ();
-		if (timeToBuy <= p.gold) {
-            p.removeGold (timeToBuy);
-			p.waveTimeLeft += timeToBuy;
-            mS.resetTimeMenu ();
-		} else {
-			//mS.warnNotEnoughGold ();
-		}
-    }
 }

@@ -52,13 +52,16 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Scripts\blackSmithScript.cs" />
+     <Compile Include="Assets\Scripts\coins.cs" />
      <Compile Include="Assets\Scripts\EnemyControler.cs" />
      <Compile Include="Assets\Scripts\GameManager.cs" />
+     <Compile Include="Assets\Scripts\mainCanvas.cs" />
      <Compile Include="Assets\Scripts\menuScript.cs" />
      <Compile Include="Assets\Scripts\PlayerControler.cs" />
      <Compile Include="Assets\Scripts\SkillTreePoint.cs" />
      <Compile Include="Assets\Scripts\SpawnEnemies.cs" />
      <Compile Include="Assets\Scripts\SwordControler.cs" />
+     <Compile Include="Assets\Scripts\vanishingNumbers.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>

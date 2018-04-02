@@ -7,80 +7,126 @@ public class menuScript : MonoBehaviour {
 	public GameObject player;
 	private PlayerControler pC;
 	//shop
-	public Text healthGold;
-	public Text healthEnd;
-	public Button healthInc;
-	public Button healthDec;
+	//buy health
+	public Image fillImage;
+	public Text incrementHealthText;
+	public Text notEnoughGoldHealth;
+	public Button buyHpBtn;
+	private Color originalIncrementHealthTextColor;
+	private Color originalNotEnoughGoldHealthColor;
 
-	public Text timeGoldT;
-	public Text timeEndT;
-	public Button timeInc;
-	public Button timeDec;
 
-	public Text oreGoldT;
+	//time 
+	public Button buyTimeBtn;
+	public Text incrementTimeText;
+	private Color originalIncrementTimeTextColor;
+	public Text showTimeText;
+
+	//public Text oreGoldT;
 	public Text oreEndT;
 	public Button oreInc;
 	public Button oreDec;
 
 	public Image blockOre;
+	public int oreStored;
+	public Text oreTimeText;
+	public Text oreTimeText2;
+	public Button takeOreBtn;
+	public Button buyOreBtn;
 
-	private int hpGold, hp, timeGold, timeGain, oreGold, oreGain;
+	//display
+	public Text coin;
+	public Text ore;
+	public Image oreAlert;
+
+	private int oreGold, oreGain;
 	// Use this for initialization
 	void Start () {
 		pC = player.GetComponent<PlayerControler> ();//get player controller to access player attributes
+		//buy 10 health at 1 go
+		buyHpBtn.onClick.AddListener(buy10hp);
+		originalIncrementHealthTextColor = incrementHealthText.color;
+		incrementHealthText.color = Color.clear;
+		originalNotEnoughGoldHealthColor = notEnoughGoldHealth.color;
+		notEnoughGoldHealth.color = Color.clear;
 
-		hpGold = 0;
-		hp = 0;
-		healthGold.text = hpGold + " G";
-		healthEnd.text = hp + " HP";
-		healthInc.onClick.AddListener (addHealth);
-		healthDec.onClick.AddListener (reduceHealth);
-
-		timeGold = 0;
-		timeGain = 0;
-		timeGoldT.text = timeGold + " G";
-		timeGoldT.text = timeGain + " s";
-		timeInc.onClick.AddListener (addTime);
-		timeDec.onClick.AddListener (reduceTime);
+		//but 10 secs at 1 go
+		buyTimeBtn.onClick.AddListener(buy10sec);
+		originalIncrementTimeTextColor = incrementTimeText.color;
+		incrementTimeText.color = Color.clear;
 
 		oreGold = 0;
 		oreGain = 0;
-		oreGoldT.text = oreGold + " G";
-		oreGoldT.text = oreGain + " Ore";
 		oreInc.onClick.AddListener (addOre);
 		oreDec.onClick.AddListener (reduceOre);
-		blockOre.enabled = false;
+		blockOre.gameObject.SetActive (false);
+
+		takeOreBtn.onClick.AddListener (takeOre);
+		oreTimeText.gameObject.SetActive(false);
+		oreTimeText2.gameObject.SetActive(false);
+		oreAlert.gameObject.SetActive (false);
+
+	}
+
+	public void buy10hp(){
+		if (pC.gold >= 10 && (pC.currentPlayerHp < pC.maxPlayerHp)) {
+			//buy 10 hp
+			pC.gold -= 10;
+			pC.currentPlayerHp += 10;
+			incrementHealthText.color = originalIncrementHealthTextColor;
+			incrementHealthText.text = "+10hp";
+			fillImage.fillAmount = (float)pC.currentPlayerHp / (float)pC.maxPlayerHp;
+			StartCoroutine (fadeSlowly (incrementHealthText));
+		} else if (pC.gold < 10 && (pC.currentPlayerHp < pC.maxPlayerHp)) {
+			notEnoughGoldHealth.text = "Not Enough Gold";
+			notEnoughGoldHealth.color = originalNotEnoughGoldHealthColor;
+			StartCoroutine (fadeSlowly (notEnoughGoldHealth));
+		} else {
+			notEnoughGoldHealth.text = "HP Full";
+			notEnoughGoldHealth.color = originalNotEnoughGoldHealthColor;
+			StartCoroutine (fadeSlowly (notEnoughGoldHealth));
+		}
+	}
+
+	public void buy10sec(){
+		if (pC.gold >= 10) {
+			//can buy
+			pC.gold -= 10;//take gold
+			pC.waveTimeLeft += 10.0f;//give time
+			incrementTimeText.color = originalIncrementTimeTextColor;
+			incrementTimeText.text = "+10s";
+			StartCoroutine (fadeSlowly (incrementTimeText));
+		} else {
+			incrementTimeText.color = originalIncrementTimeTextColor;
+			incrementTimeText.text = "Not Enough Gold!";
+			StartCoroutine (fadeSlowly (incrementTimeText));
+		}
+	}
+
+	IEnumerator fadeSlowly(Text t){
+		float totalFadeTime = 2.0f;
+		Color originalColour = t.color;
+		while (totalFadeTime > 0) {
+			totalFadeTime -= Time.deltaTime;
+			t.color = Color.Lerp (originalColour, Color.clear, 1.0f - totalFadeTime);
+			yield return new WaitForFixedUpdate ();
+
+
+		}
 	}
 		
 
 	public void addOre(){
 		if (pC.gold >= (oreGold + 10)) {//player has at least 10 gold, enough to buy the ore
-			oreGold += 10;
 			oreGain++;
+			oreGold += 10;
+		} else {
+			//not enough gold
 		}
 	}
 	public void reduceOre(){
-		oreGold = Mathf.Max (0, oreGold - 10);
 		oreGain = Mathf.Max (0, oreGain - 1);
-	}
-
-	public void addTime(){
-		if (pC.gold >= (timeGold+1)) {
-			timeGain++;
-			timeGold++;
-		}
-	}
-	public void reduceTime(){
-		timeGold = Mathf.Max (0, timeGold - 1);
-		timeGain = Mathf.Max (0, timeGain - 1);
-	}
-
-	public int timeToBuy(){
-		return timeGain;
-	}
-	public void resetTimeMenu(){
-		timeGold = 0;
-		timeGain = 0;
+		oreGold -= 10;
 	}
 
 	public void resetOreMenu(){
@@ -92,47 +138,35 @@ public class menuScript : MonoBehaviour {
 		return oreGain;
 	}
 
-	public void addHealth(){
-		if(pC.gold >= (hpGold + 1)){
-			hpGold++;
-			hp++;//rate is 1 to 1
-		}
-	}
-	public int hpToBuy(){
-		return hp;
-	}
-	public void resethealth(){
-		hp = 0;
-		hpGold = 0;
-	}
 
-	public void reduceHealth(){
-		hpGold = Mathf.Max (0, hpGold - 1);
-		hp = Mathf.Max (0, hp - 1);
-	}
 	
 	// Update is called once per frame
 	void Update () {
-		healthGold.text = hpGold + " G";
-		healthEnd.text = hp + " HP";
-		timeGoldT.text = timeGold + " G";
-		timeEndT.text = timeGain + " s";
-		oreGoldT.text = oreGold + " G";
 		oreEndT.text = oreGain + " Ore";
+		coin.text = pC.gold.ToString();
+		ore.text = pC.metalOre.ToString();
+		showTimeText.text = Mathf.Floor(pC.waveTimeLeft).ToString() + "s";
+		fillImage.fillAmount = (float)pC.currentPlayerHp / (float)pC.maxPlayerHp;
+		if (oreStored > 0) {
+			//there is ore stored and can be taken
+			oreAlert.gameObject.SetActive(true);
+			takeOreBtn.gameObject.SetActive (true);
+			buyOreBtn.gameObject.SetActive (false);
+		} else {
+			oreAlert.gameObject.SetActive (false);
+			buyOreBtn.gameObject.SetActive (true);
+			takeOreBtn.gameObject.SetActive (false);
+		}
 	}
 
-/*	public void warnNotEnoughGold(){
-		StartCoroutine (warnNotEnoughGold (notEnoughGold));
-
+	public void takeOre(){
+		pC.metalOre += oreStored;//take stored ore
+		oreStored = 0;//reset stored
+		resetOreMenu();
+		disableBlockOre();
 	}
 
-	IEnumerator warnNotEnoughGold(Text notEnoughGold){
-		notEnoughGold.enabled = true;
-		yield return new WaitForSeconds (3);
-		notEnoughGold.enabled = false;
-		Start ();
+	public void disableBlockOre(){
+		blockOre.gameObject.SetActive (false);
 	}
-	note: this function seem to cause the amount duplicate issue
-	*/
-
 }
