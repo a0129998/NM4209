@@ -11,7 +11,8 @@ public class blackSmithScript : MonoBehaviour {
 		gM = gameManager.GetComponent<GameManager> ();
 	}
 	void Update(){
-		if (Input.GetKeyDown (KeyCode.Escape)) {
+		if (Input.GetKeyDown (KeyCode.Escape) &&  gM.blackSmithCanvas.enabled) {
+			Debug.Log ("enable black smith");
 			gM.blackSmithBackRun ();
 		}
 	}

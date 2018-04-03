@@ -59,6 +59,8 @@ public class GameManager : MonoBehaviour {
 	public Button blackSmithTabBtn;
 	public Button shopTabBtn;
 
+	public bool winCondition;
+
 	IEnumerator fadeSlowly(Text t){
 		float totalFadeTime = 2.0f;
 		Color originalColour = t.color;
@@ -82,8 +84,8 @@ public class GameManager : MonoBehaviour {
         betweenLevelsWaitingTime = 0.0f;
         mS = menuCanvas.GetComponent<menuScript> ();
 
-        menuBtn.onClick.AddListener (showMenu);
-        blackSmithButton.onClick.AddListener (blackSmith);
+        //menuBtn.onClick.AddListener (showMenu);
+        //blackSmithButton.onClick.AddListener (blackSmith);
         goldToOre.onClick.AddListener (buyOre);
 		pauseBtn.onClick.AddListener (pauseResume);
         menuCanvas.enabled = false;
@@ -93,6 +95,7 @@ public class GameManager : MonoBehaviour {
 
 		shopTabBtn.onClick.AddListener (shopTab);
 		blackSmithTabBtn.onClick.AddListener (blackSmithTab);
+		winCondition = false;
 
 		initialise (0);
 
@@ -116,9 +119,8 @@ public class GameManager : MonoBehaviour {
 	}
     public void buyOre(){
         int oreTOBuy = mS.getOre ();
-		if (oreTOBuy * 10 <= p.gold && oreTOBuy > 0) {
-            p.buyOre (oreTOBuy);
-            p.removeGold (10 * oreTOBuy);
+		if (((oreTOBuy * mS.goldOreExchangeRate) <= p.gold) && (oreTOBuy > 0)) {
+			p.buyOre (oreTOBuy, mS.goldOreExchangeRate);
             mS.resetOreMenu ();
 		} else {
 			//mS.warnNotEnoughGold ();
@@ -151,11 +153,12 @@ public class GameManager : MonoBehaviour {
     }
 
     public void unpause(){
+		Debug.Log ("tries to unpause");
 		p.isPlayerPaused = false;
         isPaused = false;
         EnemyControler.isPaused = false;
         //usualCanvas.enabled = true;
-        menuBtn.enabled = true;
+        //menuBtn.enabled = true;
         menuCanvas.enabled = false;
     }
 	public void unpause2(){
@@ -184,8 +187,12 @@ public class GameManager : MonoBehaviour {
 		gold.text = p.gold.ToString();
 		ore.text = p.metalOre.ToString();
 		time.text = "Time Left: " + Mathf.Ceil(p.waveTimeLeft);
-		if (Input.GetKeyDown (KeyCode.Escape)) {
+		if (Input.GetKeyDown (KeyCode.Escape) && menuCanvas.enabled) {//close menu
+			Debug.Log("close menu");
 			unpause ();
+		}else if (Input.GetKeyDown (KeyCode.Escape) && (!blackSmithCanvas.enabled && !menuCanvas.enabled)) {
+			Debug.Log ("show menu");
+			showMenu ();
 		}
         if (isPaused) {
             return;
@@ -201,10 +208,16 @@ public class GameManager : MonoBehaviour {
 
         }
         playerLocation = player.transform.position;
+
+
         //display
 		if(debug){
 			if (Input.GetKeyDown (KeyCode.O)) {
 				this.p.metalOre += 10;
+			}
+			if (Input.GetKeyDown (KeyCode.Escape)) {//close menu
+				Debug.Log(menuCanvas.enabled);
+				Debug.Log (blackSmithCanvas.enabled);
 			}
 		}
     }
@@ -219,52 +232,55 @@ public class GameManager : MonoBehaviour {
 
     private void initialise(int level){
         //hard code level 1
+		if(winCondition){
+			return;
+		}
 		useProgressMsgs ("Level " + level + " Start!");
-		level = level % 11;
+		//level = level % 11;
         switch (level){
 		case 0:
-			p.waveTimeLeft = 40;
-			sE.initSpawn (new int[5]{ 0, 1, 2, 0, 0 }, new float[5]{ 1.0f, 1.0f, 1.0f, 1.0f, 1.0f }, new int[5]{1,1,1,1,1});
+			p.waveTimeLeft = 30.0f;
+			sE.initSpawn (new int[5]{ 0, 0, 0, 0, 0}, new float[5]{ 1.0f, 5.0f, 5.0f, 5.0f, 5.0f }, new int[5]{1, 1, 1, 1, 1});
             break;
         case 1:
-			p.waveTimeLeft = 40.0f;
-			sE.initSpawn (new int[4]{ 1, 1, 1, 1 }, new float[4]{ 5.0f, 5.0f, 5.0f, 5.0f}, new int[5]{5,5,5,5,5});
+			p.waveTimeLeft = 30.0f;
+			sE.initSpawn (new int[5]{ 1, 1, 1, 1, 1 }, new float[5]{1.0f, 5.0f, 5.0f, 5.0f, 5.0f}, new int[5]{5,5,5,5,5});
             break;
 		case 2:
-			p.waveTimeLeft = 40.0f;
-			sE.initSpawn (new int[3]{ 2, 2, 2}, new float[3]{ 1.0f, 1.0f, 1.0f}, new int[3]{1,1,1});
+			p.waveTimeLeft = 30.0f;
+			sE.initSpawn (new int[3]{ 2, 2, 2}, new float[3]{ 1.0f, 7.0f, 7.0f}, new int[3]{1,1,1});
             break;
 		case 3:
-			p.waveTimeLeft = 60.0f;
-			sE.initSpawn (new int[4]{ 0, 0, 0, 0 }, new float[4]{ 1.0f, 2.0f, 1.0f, 2.0f}, new int[4]{1,2,1,2});
+			p.waveTimeLeft = 30.0f;
+			sE.initSpawn (new int[4]{0, 1, 2, 0 }, new float[4]{1.0f, 7.0f, 7.0f, 7.0f}, new int[4]{1, 5, 1, 2});
             break;
 		case 4:
-			p.waveTimeLeft = 60.0f;
-			sE.initSpawn (new int[5]{ 0, 1, 0, 1, 0 }, new float[5]{ 1.0f, 5.0f, 1.0f, 10.0f, 1.0f}, new int[5]{1,5,1,10,1});
+			p.waveTimeLeft = 30.0f;
+			sE.initSpawn (new int[2]{4, 3 }, new float[2]{ 1.0f, 12.0f}, new int[2]{1, 5});
             break;
 		case 5:
-			p.waveTimeLeft = 60.0f;
-			sE.initSpawn (new int[5]{ 0, 1, 0, 1, 0 }, new float[5]{ 1.0f, 5.0f, 1.0f, 10.0f, 1.0f }, new int[5]{1,2,1,10,1});
+			p.waveTimeLeft = 45.0f;
+			sE.initSpawn (new int[5]{ 0, 0, 0, 0, 0}, new float[5]{ 1.0f, 5.0f, 5.0f, 5.0f, 5.0f }, new int[5]{2, 1, 2, 1, 2});
 			break;
 		case 6:
-			p.waveTimeLeft = 60.0f;
-			sE.initSpawn (new int[4]{ 0, 2, 0, 2}, new float[4]{ 1.0f, 1.0f, 1.0f, 2.0f }, new int[4]{1,1,1,2});
+			p.waveTimeLeft = 45.0f;
+			sE.initSpawn (new int[5]{1, 1, 1, 1, 1}, new float[5]{1.0f, 5.0f, 5.0f, 5.0f, 5.0f}, new int[5]{10, 5, 10, 5, 10});
 			break;
 		case 7:
-			p.waveTimeLeft = 60.0f;
-			sE.initSpawn (new int[4]{ 1, 2, 1, 1}, new float[4]{ 1.0f, 2.0f, 1.0f, 1.0f }, new int[4]{1,2,1,1});
+			p.waveTimeLeft = 45.0f;
+			sE.initSpawn (new int[5]{ 2, 0 , 2, 0 ,2}, new float[5]{1.0f, 5.0f, 5.0f, 5.0f, 5.0f }, new int[5]{1, 1, 1, 2, 2});
 			break;
 		case 8:
-			p.waveTimeLeft = 60.0f;
-			sE.initSpawn (new int[4]{ 1, 1, 1, 2}, new float[4]{ 1.0f, 2.0f, 1.0f, 1.0f }, new int[4]{5,10,5,5});
+			p.waveTimeLeft = 45.0f;
+			sE.initSpawn (new int[7]{ 0, 1, 0, 2, 0, 1, 2}, new float[7]{1.0f, 1.0f, 10.0f, 1.0f, 10.0f, 1.0f, 1.0f}, new int[7]{2, 10, 3, 2, 3, 10, 3});
 			break;
 		case 9:
 			p.waveTimeLeft = 60.0f;
-			sE.initSpawn (new int[4]{ 2, 2, 2, 2}, new float[4]{ 1.0f, 2.0f, 1.0f, 1.0f }, new int[4]{1,2,1,1});
+			sE.initSpawn (new int[6]{ 5, 3, 5, 4, 5, 3}, new float[6]{ 1.0f, 10.0f, 10.0f, 10.0f, 10.0f, 1.0f }, new int[6]{1, 5, 1, 2, 1, 5});
 			break;
 		case 10:
 			p.waveTimeLeft = 60.0f;
-			sE.initSpawn (new int[6]{ 0, 1, 2, 2, 2, 2}, new float[6]{ 2.0f, 10.0f, 2.0f, 1.0f, 5.0f, 1 }, new int[]{2,10,2,1,5,1});
+			sE.initSpawn (new int[6]{ 5, 3, 5, 4, 5, 3}, new float[6]{ 1.0f, 10.0f, 10.0f, 10.0f, 10.0f, 1.0f }, new int[6]{1, 5, 1, 2, 1, 5});
 			break;
         }
 
@@ -277,6 +293,8 @@ public class GameManager : MonoBehaviour {
 
         } else {
             Debug.Log ("you won");
+			useProgressMsgs ("You Won!");
+			winCondition = true;
         }
     }
 

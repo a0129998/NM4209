@@ -52,6 +52,10 @@ public class PlayerControler : MonoBehaviour {
 	private bool contactDown;
 
 	public GameObject vanishingText;
+	public float chanceToLeach;
+	public float chanceToPassiveDodge;
+
+	public float invulnerabilityTimer;
 
 
     void Start(){
@@ -61,14 +65,16 @@ public class PlayerControler : MonoBehaviour {
 		mS = mScript.GetComponent<menuScript> ();
 		s = 5.0f;
 		healthBar = healthBarObject.GetComponent<Image> ();
+		invulnerabilityTimer = 0.0f;
     }
 
-    public void buyOre(int toBuy){
-        int cost = toBuy * 10;
-		if (cost <= gold) {
-			gold -= cost; 
-			StartCoroutine (aO (toBuy, mS));
-		}
+	public void buyOre(int toBuy, int exchangeRate){
+		//cost is checked in game manager
+		int cost = toBuy * exchangeRate;
+		Debug.Log (cost);
+		this.metalOre += toBuy;
+		this.gold -= cost; 
+		StartCoroutine (aO (toBuy, mS));
     }
 	IEnumerator aO(int toAdd, menuScript mS){
 		
@@ -106,15 +112,33 @@ public class PlayerControler : MonoBehaviour {
     void OnTriggerEnter2D(Collider2D other){
 		//Debug.Log ("player hit the " + other.gameObject.tag);
 		if (isPlayerAlive) {
-			if (other.CompareTag ("enemy") && this.CompareTag ("Player") && !invincible) {
+			if (other.CompareTag ("enemy") && this.CompareTag ("Player")) {
 				//get damage
-				Debug.Log ("playerhit");
-				StartCoroutine (blinkHealthBar ());
-				EnemyControler eC = other.GetComponentInParent<EnemyControler> ();
-				int damage = eC.getDamage ();
-				currentPlayerHp -= damage;
-				spawnVanishingTextWithWords ("-" + damage);
+				//Debug.Log ("playerhit");
+				if (invulnerabilityTimer < 0.0f) {
+					invulnerabilityTimer -= Time.deltaTime;
+					sR.color = new Color (1.0f, 1.0f, 1.0f, 0.75f);
+					invincible = true;
+				} else {
+					sR.color = Color.white;
+				}
+
+				if (Random.Range(0.0f, 1.0f) < chanceToPassiveDodge) {
+					invulnerabilityTimer = 2.0f;
+				}
+				if (!invincible) {
+					StartCoroutine (blinkHealthBar ());
+					EnemyControler eC = other.GetComponentInParent<EnemyControler> ();
+					int damage = eC.getDamage ();
+					currentPlayerHp -= damage;
+					spawnVanishingTextWithWords ("-" + damage);
+				}
 			}
+
+
+
+
+
 			if (other.CompareTag ("leftwall") && this.CompareTag ("Player")) {
 				contactLeft = true;
 			}
@@ -247,6 +271,11 @@ public class PlayerControler : MonoBehaviour {
 			gold += eC.goldDropped;
 			eC.dies ();
         }
+
+		if (Random.Range (0, 1) < chanceToLeach) {
+			//leach hp
+			currentPlayerHp = Mathf.Min (maxPlayerHp, currentPlayerHp + attack / 2);
+		}
 
     }
 

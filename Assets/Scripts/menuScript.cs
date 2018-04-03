@@ -26,6 +26,7 @@ public class menuScript : MonoBehaviour {
 	public Text oreEndT;
 	public Button oreInc;
 	public Button oreDec;
+	public int goldOreExchangeRate;
 
 	public Image blockOre;
 	public int oreStored;
@@ -117,16 +118,16 @@ public class menuScript : MonoBehaviour {
 		
 
 	public void addOre(){
-		if (pC.gold >= (oreGold + 10)) {//player has at least 10 gold, enough to buy the ore
+		if (pC.gold >= (oreGold + goldOreExchangeRate)) {//player has at least 10 gold, enough to buy the ore
 			oreGain++;
-			oreGold += 10;
+			oreGold += goldOreExchangeRate;
 		} else {
 			//not enough gold
 		}
 	}
 	public void reduceOre(){
 		oreGain = Mathf.Max (0, oreGain - 1);
-		oreGold -= 10;
+		oreGold -= goldOreExchangeRate;
 	}
 
 	public void resetOreMenu(){

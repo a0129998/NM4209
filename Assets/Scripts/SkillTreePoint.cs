@@ -18,6 +18,7 @@ public class SkillTreePoint : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 	public bool poison;//not implemented
 	public float MSAdd;//multiplication
 	public float ASAdd;//multiplication
+	public float chanceToLeach;
 
 	public Text tooltip;
 	public GameObject panel;
@@ -32,6 +33,7 @@ public class SkillTreePoint : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
 	public float rightOffset;
 	public float downOffset;
+	public float chanceToPassiveDodge;
 	// Use this for initialization
 
 	void Start(){
@@ -50,7 +52,7 @@ public class SkillTreePoint : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 		if (pC.metalOre >= costInOre && canActivate() && !activated) {
 			pC.metalOre -= costInOre;
 			pC.attack += atkAdd;
-			pC.hpRegenPer5Sec += hpReg;
+			pC.hpRegenPer5Sec = Mathf.Max( hpReg, pC.hpRegenPer5Sec);
 			pC.maxPlayerHp += totalHPAdd;
 			pC.currentPlayerHp += hpAdd;
 			pC.playerSpeed = Mathf.Max (pC.playerSpeed * MSAdd, pC.playerSpeed);
@@ -58,6 +60,8 @@ public class SkillTreePoint : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 			pC.critRate = Mathf.Max (pC.critRate * critAdd, pC.critRate);
 			pC.critDamageMultiplier = Mathf.Max (pC.critDamageMultiplier * critDamageMultiplyerMultiplyer, pC.critDamageMultiplier);
 			activated = true;
+			pC.chanceToLeach = Mathf.Max(chanceToLeach, pC.chanceToLeach);
+			pC.chanceToPassiveDodge = Mathf.Max (pC.chanceToPassiveDodge, chanceToPassiveDodge);
 		}
 	}
 

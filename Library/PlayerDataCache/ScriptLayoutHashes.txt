@@ -1,4 +1,4 @@
-WindowsStandalone
+OSXStandalone
 SceneListBegin?
 Assets/Scenes/main.unity
 SceneListEnd?
@@ -116,11 +116,11 @@ bc68edb0af574bf79f9550ead8ebae5c UnityEngine.HoloLens.dll:UnityEngine.Audio.Audi
 c2275a8bfbb9f9942cad75ecdfded41d UnityEngine.HoloLens.dll:UnityEngine.XR.WSA.SpatialMappingCollider
 45f3431f0103c41611e8d4eec3d439df UnityEngine.HoloLens.dll:UnityEngine.XR.WSA.SpatialMappingRenderer
 aa6418c622b7c8e6300b1bcffa160f1e Assembly-CSharp.dll:.vanishingNumbers
-3f76df793587a188b2a78046b189bb7e Assembly-CSharp.dll:.SkillTreePoint
+4386738c8351cb540172f47fc7377bc2 Assembly-CSharp.dll:.SkillTreePoint
 05524b8f659e7bfe5756d1335fec24ba UnityEngine.Advertisements.dll:UnityEngine.Advertisements.CallbackExecutor
 05524b8f659e7bfe5756d1335fec24ba UnityEngine.Advertisements.dll:UnityEngine.Advertisements.Editor.Placeholder
-56691eb70c21498e4472009fb45a6cb4 Assembly-CSharp.dll:.GameManager
-90069e45a4aef1028809fca0a53658b6 Assembly-CSharp.dll:.menuScript
+69f7d342e84abcaa630fe0d3de1092de Assembly-CSharp.dll:.GameManager
+08fedae07f3da3295d271e36e4cb940e Assembly-CSharp.dll:.menuScript
 fa0d32c53f04701619ae0dc2a648fb4a Assembly-CSharp.dll:.coins
 fc1e0f4d8439d9928083474691511a13 UnityEngine.Networking.dll:UnityEngine.Networking.NetworkAnimator
 05524b8f659e7bfe5756d1335fec24ba UnityEngine.Networking.dll:UnityEngine.Networking.NetworkBehaviour
@@ -146,7 +146,7 @@ bc68edb0af574bf79f9550ead8ebae5c UnityEngine.HoloLens.dll:UnityEngine.Audio.Audi
 463516d5b5fe8e67a0a24c48f2095b04 UnityEngine.HoloLens.dll:UnityEngine.EventSystems.HoloLensInputModule
 c2275a8bfbb9f9942cad75ecdfded41d UnityEngine.HoloLens.dll:UnityEngine.XR.WSA.SpatialMappingCollider
 45f3431f0103c41611e8d4eec3d439df UnityEngine.HoloLens.dll:UnityEngine.XR.WSA.SpatialMappingRenderer
-2ab8b49fbd8f42be23c165097b351995 Assembly-CSharp.dll:.PlayerControler
+10df6f84740b55a6890a846fa2645fba Assembly-CSharp.dll:.PlayerControler
 7ec4a468f95961d0b3e441204d837d3a Assembly-CSharp.dll:.mainCanvas
 9de3a22eca9aefadba2d10d5987cefe3 UnityEngine.SpatialTracking.dll:UnityEngine.SpatialTracking.TrackedPoseDriver
 e77ee4fecaefed1fb1bc89e1d0e70589 Assembly-CSharp.dll:.SwordControler
