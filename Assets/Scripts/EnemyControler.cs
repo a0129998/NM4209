@@ -21,6 +21,8 @@ public class EnemyControler : MonoBehaviour {
 	public GameObject coin;
 	private float freeze;
 
+	public GameObject vanishingText;
+
 	// Use this for initialization
 	void Start () {
 		gameManager = GameObject.Find ("GameManager");
@@ -61,6 +63,12 @@ public class EnemyControler : MonoBehaviour {
 	public void isHit(int hpToRed){//reduce
 		freeze = 0.5f;
 		this.hp -= hpToRed;
+
+		GameObject vText = (GameObject)Instantiate(vanishingText, gameObject.transform.position, Quaternion.identity);
+		vanishingNumbers vT = vText.GetComponentInChildren<vanishingNumbers> ();
+		vT.text.text = "-" + hpToRed;
+		vT.text.color = Color.white;
+		vT.transform.position = gameObject.transform.position;
 	}
 
 	public int getDamage(){

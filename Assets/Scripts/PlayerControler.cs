@@ -29,6 +29,7 @@ public class PlayerControler : MonoBehaviour {
     public int currentPlayerHp;
     public float waveTimeLeft;
     public float critRate;
+	public int playerScore;
 
 	//sprites change direction
 	private SpriteRenderer sR;
@@ -66,20 +67,20 @@ public class PlayerControler : MonoBehaviour {
 		s = 5.0f;
 		healthBar = healthBarObject.GetComponent<Image> ();
 		invulnerabilityTimer = 0.0f;
+		playerScore = 0;
     }
 
 	public void buyOre(int toBuy, int exchangeRate){
 		//cost is checked in game manager
 		int cost = toBuy * exchangeRate;
 		Debug.Log (cost);
-		this.metalOre += toBuy;
 		this.gold -= cost; 
 		StartCoroutine (aO (toBuy, mS));
     }
 	IEnumerator aO(int toAdd, menuScript mS){
 		
 		mS.blockOre.gameObject.SetActive (true);
-		float timer = 10.0f;
+		float timer = 20.0f;
 		mS.oreTimeText.gameObject.SetActive(true);
 		mS.oreTimeText2.gameObject.SetActive (true);
 		mS.oreTimeText.text = Mathf.Floor (timer).ToString();
@@ -89,9 +90,13 @@ public class PlayerControler : MonoBehaviour {
         //yield return new WaitForSeconds (10);//wait 10 secs
 
 		while (timer >= 0.0f) {
-			yield return new WaitForFixedUpdate();
-			timer -= Time.deltaTime;
-			mS.oreTimeText.text = Mathf.Floor (timer).ToString();
+			if (isPlayerPaused) {
+				yield return null;
+			} else {
+				yield return new WaitForFixedUpdate ();
+				timer -= Time.deltaTime;
+				mS.oreTimeText.text = Mathf.Floor (timer).ToString ();
+			}
 		}
 		mS.oreStored = toAdd;
 		mS.blockOre.gameObject.SetActive (false);
@@ -269,6 +274,7 @@ public class PlayerControler : MonoBehaviour {
         if (eC.getHp () <= 0) {
             SpawnEnemies.numEnemies--;
 			gold += eC.goldDropped;
+			playerScore += eC.goldDropped;
 			eC.dies ();
         }
 

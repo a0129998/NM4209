@@ -2,14 +2,17 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\GameManager.cs">
     <Files>
-      <File FileName="Assets\Scripts\PlayerControler.cs" Line="123" Column="29" />
-      <File FileName="Assets\Scripts\GameManager.cs" Line="98" Column="24" />
-      <File FileName="Assets\Scripts\EnemyControler.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\PlayerControler.cs" Line="70" Column="19" />
+      <File FileName="Assets\Scripts\GameManager.cs" Line="174" Column="43" />
+      <File FileName="Assets\Scripts\EnemyControler.cs" Line="69" Column="31" />
       <File FileName="Assets\Scripts\SpawnEnemies.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\menuScript.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\menuScript.cs" Line="47" Column="26" />
       <File FileName="Assets\Scripts\blackSmithScript.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\SkillTreePoint.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\mainCanvas.cs" Line="38" Column="31" />
+      <File FileName="Assets\Scripts\mainCanvas.cs" Line="39" Column="4" />
+      <File FileName="Assets\Scripts\vanishingNumbers.cs" Line="14" Column="17" />
+      <File FileName="Assets\Scripts\growingVanisingText.cs" Line="22" Column="18" />
+      <File FileName="Assets\Scripts\SwordControler.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

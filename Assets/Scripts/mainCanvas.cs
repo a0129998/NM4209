@@ -36,8 +36,8 @@ public class mainCanvas : MonoBehaviour {
 			addCoinText.color = originalCoinTextColour;
 			StartCoroutine (fadeSlowly(addCoinText));
 			playerGoldCounter = p.gold;
-		}
 
+		}
 	}
 
 	IEnumerator fadeSlowly(Text t){

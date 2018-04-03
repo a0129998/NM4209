@@ -186,6 +186,8 @@ MonoBehaviour:
   speed: 0.02
   healthBarObject: {fileID: 1204737801322628}
   coin: {fileID: 1580272944168528, guid: 48f72aa844c5b15438a9e7821dfe4d6c, type: 2}
+  vanishingText: {fileID: 1482682027064344, guid: 0437ebb2f0bca9b41a50adcf3ce7b3b8,
+    type: 2}
 --- !u!114 &114839363308183020
 MonoBehaviour:
   m_ObjectHideFlags: 1

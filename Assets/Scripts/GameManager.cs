@@ -36,6 +36,7 @@ public class GameManager : MonoBehaviour {
 	public Text gold;
 	public Text ore;
 	public Text time;
+	public Text score;
 
     public bool isPaused;
 
@@ -170,7 +171,7 @@ public class GameManager : MonoBehaviour {
     public void setWaitingTime(){
         betweenLevelsWaitingTime = 5.0f;
 		p.isTimePaused = true;
-		useProgressMsgs ("CurrentLevelOver");
+		useProgressMsgs ("Current Level Cleared!");
     }
 
 	public void useProgressMsgs(string str){
@@ -186,7 +187,8 @@ public class GameManager : MonoBehaviour {
 		}
 		gold.text = p.gold.ToString();
 		ore.text = p.metalOre.ToString();
-		time.text = "Time Left: " + Mathf.Ceil(p.waveTimeLeft);
+		time.text = ((int)Mathf.Ceil(p.waveTimeLeft)).ToString();
+		score.text = p.playerScore.ToString();
 		if (Input.GetKeyDown (KeyCode.Escape) && menuCanvas.enabled) {//close menu
 			Debug.Log("close menu");
 			unpause ();
