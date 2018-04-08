@@ -121,7 +121,7 @@ public class PlayerControler : MonoBehaviour {
 		//Debug.Log ("player hit the " + other.gameObject.tag);
 		if (isPlayerAlive) {
 			if (other.CompareTag ("enemy") && this.CompareTag ("Player")) {
-				other.gameObject.GetComponent<EnemyControler> ().moveBackTimer = 1.0f;
+				other.gameObject.GetComponent<EnemyControler> ().moveBackTimer = other.gameObject.GetComponent<EnemyControler> ().moveBackTime;
 				//get damage
 				//Debug.Log ("playerhit");
 				if (invulnerabilityTimer > 0.0f) {

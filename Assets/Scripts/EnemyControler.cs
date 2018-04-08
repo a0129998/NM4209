@@ -20,6 +20,7 @@ public class EnemyControler : MonoBehaviour {
 
 	public GameObject coin;
 	private float freeze;
+	public float freezeTime;
 
 	public GameObject vanishingText;
 	public float startPauseTime;
@@ -30,6 +31,7 @@ public class EnemyControler : MonoBehaviour {
 	public int numYoungToSpawn;
 
 	public float moveBackTimer;
+	public float moveBackTime;
 
 	// Use this for initialization
 	void Start () {
@@ -90,7 +92,7 @@ public class EnemyControler : MonoBehaviour {
 	}
 
 	public void isHit(int hpToRed){//reduce
-		freeze = 0.5f;
+		freeze = freezeTime;
 		this.hp -= hpToRed;
 
 		GameObject vText = (GameObject)Instantiate(vanishingText, gameObject.transform.position, Quaternion.identity);
