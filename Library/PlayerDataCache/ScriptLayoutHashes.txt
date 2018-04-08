@@ -1,4 +1,4 @@
-OSXStandalone
+WindowsStandalone
 SceneListBegin?
 Assets/Scenes/startScene.unity
 Assets/Scenes/main.unity
@@ -125,7 +125,7 @@ aa6418c622b7c8e6300b1bcffa160f1e Assembly-CSharp.dll:.vanishingNumbers
 05524b8f659e7bfe5756d1335fec24ba UnityEngine.Advertisements.dll:UnityEngine.Advertisements.Editor.Placeholder
 fb82b93991aef9eff6aba8b2b89bc352 Assembly-CSharp.dll:.GameManager
 e07ae48294d08bb4b1fd46e89d81f1ad Assembly-CSharp.dll:.menuScript
-7a0074fe260a723a4f1b268310033f39 Assembly-CSharp.dll:.winLoseController
+8b310af7033f2216865eee4af03bcfef Assembly-CSharp.dll:.winLoseController
 fa0d32c53f04701619ae0dc2a648fb4a Assembly-CSharp.dll:.coins
 1444dbe2981a4ea98f0fc76d7dd04639 Assembly-CSharp.dll:.settingsCanvas
 fc1e0f4d8439d9928083474691511a13 UnityEngine.Networking.dll:UnityEngine.Networking.NetworkAnimator
@@ -158,3 +158,5 @@ e0760e4c9f4c2798913ed9a3a6ac81a3 Assembly-CSharp.dll:.glowWhenHover
 62c054e768b5faa94179e3306bada1bb Assembly-CSharp.dll:.mainCanvas
 9de3a22eca9aefadba2d10d5987cefe3 UnityEngine.SpatialTracking.dll:UnityEngine.SpatialTracking.TrackedPoseDriver
 e77ee4fecaefed1fb1bc89e1d0e70589 Assembly-CSharp.dll:.SwordControler
+655790addabf6c26a2716dde4a202ac9 Assembly-CSharp.dll:.openCloseScript
+1c3c5cc02f68fe06ed09c63205c1b90a Assembly-CSharp.dll:.closeApplication

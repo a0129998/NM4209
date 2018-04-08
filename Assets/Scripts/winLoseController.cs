@@ -9,7 +9,8 @@ public class winLoseController : MonoBehaviour {
 	public GameObject gameManager;
 	private GameManager gm;
 
-	public Image winLoseImg;
+	public Image loseImg;
+	public Image winImg;
 	public Text winLoseText;
 	public Button startScreenBtn;
 
@@ -18,6 +19,8 @@ public class winLoseController : MonoBehaviour {
 		gm = gameManager.GetComponent<GameManager> ();
 		setEnableWinLose (false);
 		startScreenBtn.onClick.AddListener (restart);
+		loseImg.enabled = false;
+		winImg.enabled = false;
 	}
 
 	void restart(){
@@ -25,7 +28,6 @@ public class winLoseController : MonoBehaviour {
 	}
 
 	void setEnableWinLose(bool isEnabled){
-		winLoseImg.enabled = isEnabled;
 		winLoseText.enabled = isEnabled;
 		startScreenBtn.gameObject.SetActive (isEnabled);
 	}
@@ -34,10 +36,12 @@ public class winLoseController : MonoBehaviour {
 	void Update () {
 		if (gm.winCondition) {
 			//playerwon, do something
+			winImg.enabled = true;
 			setEnableWinLose(true);
 			winLoseText.text = "You Win! \n Score: " + gm.score.text;
 		}else if(gm.loseCondition){
 			//player lost, do sth
+			loseImg.enabled = true;
 			setEnableWinLose(true);
 			winLoseText.text = "Try again? \n Score: " + gm.score.text;
 		}

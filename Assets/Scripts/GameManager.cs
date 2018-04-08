@@ -119,7 +119,9 @@ public class GameManager : MonoBehaviour {
 		//you lost, try again?
 	}
 
+
 	public void openSettings(){
+		Debug.Log ("try to open settings");
 		if (blackSmithCanvas.enabled) {
 			blackSmithBackRun ();
 		}
@@ -151,6 +153,9 @@ public class GameManager : MonoBehaviour {
 
 	public void shopTab(){
 		blackSmithBackRun ();
+		if (settingsCanvas.enabled) {
+			closeSettings ();
+		}
 		showMenu ();
 	}
 	public void blackSmithTab(){
