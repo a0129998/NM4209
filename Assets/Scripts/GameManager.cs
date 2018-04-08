@@ -4,16 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour {
-    private static GameManager _instance;
-    public static GameManager Instance { get { return _instance; } }
 
-    private void Awake(){
-        if (_instance != null && _instance != this) {
-            Destroy (this.gameObject);
-        } else {
-            _instance = this;
-        }
-    }
 
 	public static bool debug = true;
 	public static bool enemiesMove = true;
@@ -36,12 +27,13 @@ public class GameManager : MonoBehaviour {
 	public Text gold;
 	public Text ore;
 	public Text time;
+	public Text timeMSecText;
 	public Text score;
 
     public bool isPaused;
 
     //wait 5 secs
-    float betweenLevelsWaitingTime;
+    public float betweenLevelsWaitingTime;
     bool isBetweenLevels;
 
 
@@ -58,9 +50,21 @@ public class GameManager : MonoBehaviour {
 	private Color originalProgressMsgsColor;
 
 	public Button blackSmithTabBtn;
+	public Button blackSmithTabBtn2;
 	public Button shopTabBtn;
+	public Button shopTabBtn2;
 
 	public bool winCondition;
+	public bool loseCondition;
+
+	public Button closeMenuBtn;
+	public Button closeBlackSmithBtn;
+	public Canvas settingsCanvas;
+	public Button settingsCanvasTab;
+	public Button settingsCanvasTab2;
+	public Button closeSettingsCanvasBtn;
+
+	public bool isInfinite;
 
 	IEnumerator fadeSlowly(Text t){
 		float totalFadeTime = 2.0f;
@@ -88,25 +92,71 @@ public class GameManager : MonoBehaviour {
         //menuBtn.onClick.AddListener (showMenu);
         //blackSmithButton.onClick.AddListener (blackSmith);
         goldToOre.onClick.AddListener (buyOre);
-		pauseBtn.onClick.AddListener (pauseResume);
+		pauseBtn.onClick.AddListener (shopTab);
         menuCanvas.enabled = false;
         blackSmithCanvas.enabled = false;
+		settingsCanvas.enabled = false;
 		originalProgressMsgsColor = progressMsgs.color;
 		progressMsgs.color = Color.clear;
 
 		shopTabBtn.onClick.AddListener (shopTab);
+		shopTabBtn2.onClick.AddListener (shopTab);
 		blackSmithTabBtn.onClick.AddListener (blackSmithTab);
+		blackSmithTabBtn2.onClick.AddListener (blackSmithTab);
 		winCondition = false;
-
+		loseCondition = false;
+		closeMenuBtn.onClick.AddListener (unpause);
+		closeBlackSmithBtn.onClick.AddListener (blackSmithBackRun);
+		closeSettingsCanvasBtn.onClick.AddListener (closeAllCanvas);
+		settingsCanvasTab.onClick.AddListener (openSettings);
+		settingsCanvasTab2.onClick.AddListener (openSettings);
+		isPaused = false;
 		initialise (0);
 
     }
+
+	void playerLost(){
+		//you lost, try again?
+	}
+
+	public void openSettings(){
+		if (blackSmithCanvas.enabled) {
+			blackSmithBackRun ();
+		}
+		if (menuCanvas.enabled) {
+			unpause ();
+		}
+		pauseGame ();
+		settingsCanvas.enabled = true;
+	}
+
+	public void closeSettings(){
+		settingsCanvas.enabled = false;
+		unpause2 ();
+	}
+
+	public void closeAllCanvas(){
+		if (blackSmithCanvas.enabled) {
+			blackSmithBackRun ();
+		}
+
+		if (menuCanvas.enabled) {
+			unpause ();
+		}
+
+		if (settingsCanvas.enabled) {
+			closeSettings ();
+		}
+	}
 
 	public void shopTab(){
 		blackSmithBackRun ();
 		showMenu ();
 	}
 	public void blackSmithTab(){
+		if (settingsCanvas.enabled) {
+			closeSettings ();
+		}
 		unpause ();
 		blackSmith ();
 	}
@@ -154,7 +204,10 @@ public class GameManager : MonoBehaviour {
     }
 
     public void unpause(){
-		Debug.Log ("tries to unpause");
+		if (settingsCanvas.enabled) {
+			closeSettings ();
+		}
+		//Debug.Log ("tries to unpause");
 		p.isPlayerPaused = false;
         isPaused = false;
         EnemyControler.isPaused = false;
@@ -180,21 +233,34 @@ public class GameManager : MonoBehaviour {
 		StartCoroutine (fadeSlowly (progressMsgs));
 	}
     void Update () {
+		if (winCondition) {
+			pauseGame ();
+			//go to win page- should have replay option
+		}
 		if (p.waveTimeLeft < 0) {
 			//gameover
 			useProgressMsgs("Time Ran Out");
 			pauseGame ();
+			loseCondition = true;
+		}
+		if (!p.isPlayerAlive) {
+			loseCondition = true;
 		}
 		gold.text = p.gold.ToString();
 		ore.text = p.metalOre.ToString();
-		time.text = ((int)Mathf.Ceil(p.waveTimeLeft)).ToString();
+		timeDisplay ();
 		score.text = p.playerScore.ToString();
 		if (Input.GetKeyDown (KeyCode.Escape) && menuCanvas.enabled) {//close menu
-			Debug.Log("close menu");
+			Debug.Log ("close menu");
 			unpause ();
-		}else if (Input.GetKeyDown (KeyCode.Escape) && (!blackSmithCanvas.enabled && !menuCanvas.enabled)) {
+		} else if (Input.GetKeyDown (KeyCode.Escape) && (!blackSmithCanvas.enabled && !menuCanvas.enabled && !settingsCanvas.enabled)) {
 			Debug.Log ("show menu");
 			showMenu ();
+		}
+
+		if (Input.GetKeyDown (KeyCode.Escape) && settingsCanvas.enabled) {
+			Debug.Log("close settings");
+			closeSettings ();
 		}
         if (isPaused) {
             return;
@@ -211,6 +277,7 @@ public class GameManager : MonoBehaviour {
         }
         playerLocation = player.transform.position;
 
+		moveScene.score = p.playerScore;
 
         //display
 		if(debug){
@@ -223,6 +290,14 @@ public class GameManager : MonoBehaviour {
 			}
 		}
     }
+
+	void timeDisplay(){
+		string timeForSec = Mathf.Ceil (p.waveTimeLeft).ToString();
+		string timeForMs = (Mathf.Ceil( p.waveTimeLeft * 100 % 100)).ToString ("F0");
+
+		time.text = timeForSec;
+		timeMSecText.text = timeForMs;
+	}
 
     public PlayerControler getpC(){
         return p;
@@ -238,50 +313,52 @@ public class GameManager : MonoBehaviour {
 			return;
 		}
 		useProgressMsgs ("Level " + level + " Start!");
-		//level = level % 11;
+		if (isInfinite){
+			level = level % 10;//repeat 10 levels
+		}
         switch (level){
 		case 0:
-			p.waveTimeLeft = 30.0f;
+			p.waveTimeLeft += 30.0f;
 			sE.initSpawn (new int[5]{ 0, 0, 0, 0, 0}, new float[5]{ 1.0f, 5.0f, 5.0f, 5.0f, 5.0f }, new int[5]{1, 1, 1, 1, 1});
             break;
         case 1:
-			p.waveTimeLeft = 30.0f;
+			p.waveTimeLeft += 30.0f;
 			sE.initSpawn (new int[5]{ 1, 1, 1, 1, 1 }, new float[5]{1.0f, 5.0f, 5.0f, 5.0f, 5.0f}, new int[5]{5,5,5,5,5});
             break;
 		case 2:
-			p.waveTimeLeft = 30.0f;
+			p.waveTimeLeft += 30.0f;
 			sE.initSpawn (new int[3]{ 2, 2, 2}, new float[3]{ 1.0f, 7.0f, 7.0f}, new int[3]{1,1,1});
             break;
 		case 3:
-			p.waveTimeLeft = 30.0f;
+			p.waveTimeLeft += 30.0f;
 			sE.initSpawn (new int[4]{0, 1, 2, 0 }, new float[4]{1.0f, 7.0f, 7.0f, 7.0f}, new int[4]{1, 5, 1, 2});
             break;
 		case 4:
-			p.waveTimeLeft = 30.0f;
+			p.waveTimeLeft += 30.0f;
 			sE.initSpawn (new int[2]{4, 3 }, new float[2]{ 1.0f, 12.0f}, new int[2]{1, 5});
             break;
 		case 5:
-			p.waveTimeLeft = 45.0f;
+			p.waveTimeLeft += 45.0f;
 			sE.initSpawn (new int[5]{ 0, 0, 0, 0, 0}, new float[5]{ 1.0f, 5.0f, 5.0f, 5.0f, 5.0f }, new int[5]{2, 1, 2, 1, 2});
 			break;
 		case 6:
-			p.waveTimeLeft = 45.0f;
+			p.waveTimeLeft += 45.0f;
 			sE.initSpawn (new int[5]{1, 1, 1, 1, 1}, new float[5]{1.0f, 5.0f, 5.0f, 5.0f, 5.0f}, new int[5]{10, 5, 10, 5, 10});
 			break;
 		case 7:
-			p.waveTimeLeft = 45.0f;
+			p.waveTimeLeft += 45.0f;
 			sE.initSpawn (new int[5]{ 2, 0 , 2, 0 ,2}, new float[5]{1.0f, 5.0f, 5.0f, 5.0f, 5.0f }, new int[5]{1, 1, 1, 2, 2});
 			break;
 		case 8:
-			p.waveTimeLeft = 45.0f;
+			p.waveTimeLeft += 45.0f;
 			sE.initSpawn (new int[7]{ 0, 1, 0, 2, 0, 1, 2}, new float[7]{1.0f, 1.0f, 10.0f, 1.0f, 10.0f, 1.0f, 1.0f}, new int[7]{2, 10, 3, 2, 3, 10, 3});
 			break;
 		case 9:
-			p.waveTimeLeft = 60.0f;
+			p.waveTimeLeft += 60.0f;
 			sE.initSpawn (new int[6]{ 5, 3, 5, 4, 5, 3}, new float[6]{ 1.0f, 10.0f, 10.0f, 10.0f, 10.0f, 1.0f }, new int[6]{1, 5, 1, 2, 1, 5});
 			break;
-		case 10:
-			p.waveTimeLeft = 60.0f;
+		case 10://not used
+			p.waveTimeLeft += 60.0f;
 			sE.initSpawn (new int[6]{ 5, 3, 5, 4, 5, 3}, new float[6]{ 1.0f, 10.0f, 10.0f, 10.0f, 10.0f, 1.0f }, new int[6]{1, 5, 1, 2, 1, 5});
 			break;
         }
@@ -289,11 +366,14 @@ public class GameManager : MonoBehaviour {
     }
 
     public void initialiseNext(){
-        if (++currLevel <= maxLevel) {
-            Debug.Log ("init level " + currLevel);
-            initialise (currLevel); 
+		if (++currLevel <= maxLevel && !isInfinite) {
+			Debug.Log ("init level " + currLevel);
+			initialise (currLevel); 
 
-        } else {
+		} else if (isInfinite) {
+			Debug.Log ("init level " + currLevel);
+			initialise (currLevel); 
+		}else{
             Debug.Log ("you won");
 			useProgressMsgs ("You Won!");
 			winCondition = true;

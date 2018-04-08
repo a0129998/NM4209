@@ -136,8 +136,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   atk: 10
-  hp: 240
-  maxHp: 240
+  hp: 480
+  maxHp: 480
   goldDropped: 15
   regen: 5
   speed: 0.01
@@ -145,6 +145,12 @@ MonoBehaviour:
   coin: {fileID: 1580272944168528, guid: 48f72aa844c5b15438a9e7821dfe4d6c, type: 2}
   vanishingText: {fileID: 1482682027064344, guid: 0437ebb2f0bca9b41a50adcf3ce7b3b8,
     type: 2}
+  startPauseTime: 0
+  spawnYoungWhenDead: 1
+  youngToSpawn: {fileID: 1556413151302352, guid: d0c37e6775a4e0842987eba8cc524180,
+    type: 2}
+  numYoungToSpawn: 2
+  moveBackTimer: 0
 --- !u!114 &114507465822923452
 MonoBehaviour:
   m_ObjectHideFlags: 1

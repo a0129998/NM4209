@@ -33,6 +33,8 @@ public class menuScript : MonoBehaviour {
 	public Text oreTimeText;
 	public Text oreTimeText2;
 	public Button takeOreBtn;
+	public GameObject takeOreBackground;
+	public GameObject takeOreObj;
 	public Button buyOreBtn;
 
 	//display
@@ -40,6 +42,9 @@ public class menuScript : MonoBehaviour {
 	public Text ore;
 	public Image oreAlert;
 
+	public Text hpText;
+	public Image warnNotEnoughGoldImg;
+	public Text warnNotEnoughGoldImgText;
 	private int oreGold, oreGain;
 	// Use this for initialization
 	void Start () {
@@ -66,22 +71,28 @@ public class menuScript : MonoBehaviour {
 		oreTimeText.gameObject.SetActive(false);
 		oreTimeText2.gameObject.SetActive(false);
 		oreAlert.gameObject.SetActive (false);
+		warnNotEnoughGoldImg.enabled = false;
+		warnNotEnoughGoldImgText.enabled = false;
 
+	}
+
+	void setTakeOre(bool isActive){
+		takeOreBackground.gameObject.SetActive (isActive);
+		takeOreBtn.gameObject.SetActive (isActive);
+		takeOreObj.gameObject.SetActive (isActive);
 	}
 
 	public void buy10hp(){
 		if (pC.gold >= 10 && (pC.currentPlayerHp < pC.maxPlayerHp)) {
 			//buy 10 hp
 			pC.gold -= 10;
-			pC.currentPlayerHp += 10;
+			pC.currentPlayerHp = Mathf.Min(pC.currentPlayerHp+10, pC.maxPlayerHp);
 			incrementHealthText.color = originalIncrementHealthTextColor;
 			incrementHealthText.text = "+10hp";
 			fillImage.fillAmount = (float)pC.currentPlayerHp / (float)pC.maxPlayerHp;
 			StartCoroutine (fadeSlowly (incrementHealthText));
 		} else if (pC.gold < 10 && (pC.currentPlayerHp < pC.maxPlayerHp)) {
-			notEnoughGoldHealth.text = "Not Enough Gold";
-			notEnoughGoldHealth.color = originalNotEnoughGoldHealthColor;
-			StartCoroutine (fadeSlowly (notEnoughGoldHealth));
+			warnNotEnoughGold();
 		} else {
 			notEnoughGoldHealth.text = "HP Full";
 			notEnoughGoldHealth.color = originalNotEnoughGoldHealthColor;
@@ -98,11 +109,33 @@ public class menuScript : MonoBehaviour {
 			incrementTimeText.text = "+10s";
 			StartCoroutine (fadeSlowly (incrementTimeText));
 		} else {
-			incrementTimeText.color = originalIncrementTimeTextColor;
-			incrementTimeText.text = "Not Enough Gold!";
-			StartCoroutine (fadeSlowly (incrementTimeText));
+			warnNotEnoughGold();
 		}
 	}
+
+	void warnNotEnoughGold(){
+		StartCoroutine (fadeSlowlyImgText (warnNotEnoughGoldImg, warnNotEnoughGoldImgText));
+	}
+
+
+	IEnumerator fadeSlowlyImgText(Image img, Text t){
+		float totalFadeTime = 2.0f;
+		img.enabled = true;
+		t.enabled = true;
+		Color originalImgColor = img.color;
+		Color originalTextColour = t.color;
+		while (totalFadeTime > 0) {
+			totalFadeTime -= Time.deltaTime;
+			img.color = Color.Lerp (originalImgColor, Color.clear, 1.0f - totalFadeTime);
+			t.color = Color.Lerp (originalTextColour, Color.clear, 1.0f - totalFadeTime);
+			yield return new WaitForFixedUpdate ();
+		}
+		img.enabled = false;
+		t.enabled = false;
+		img.color = originalImgColor;
+		t.color = originalTextColour;
+	}
+
 
 	IEnumerator fadeSlowly(Text t){
 		float totalFadeTime = 2.0f;
@@ -118,7 +151,7 @@ public class menuScript : MonoBehaviour {
 		
 
 	public void addOre(){
-		if (oreStored > 0) {
+		if (oreStored > 0) {//can not click when ore is ready to be collected
 			return;
 		}
 		if (pC.gold >= (oreGold + goldOreExchangeRate)) {//player has at least 10 gold, enough to buy the ore
@@ -126,14 +159,17 @@ public class menuScript : MonoBehaviour {
 			oreGold += goldOreExchangeRate * 10;
 		} else {
 			//not enough gold
+			warnNotEnoughGold();
 		}
 	}
 	public void reduceOre(){
-		if (oreStored > 0) {
+		if (oreStored > 0) {//can not click when ore is ready to be collected
 			return;
 		}
-		oreGain = Mathf.Max (0, oreGain - 10);
-		oreGold -= goldOreExchangeRate * 10;
+		if (oreGain > 0) {
+			oreGain = oreGain - 10;
+			oreGold -= goldOreExchangeRate * 10;
+		}
 	}
 
 	public void resetOreMenu(){
@@ -152,17 +188,20 @@ public class menuScript : MonoBehaviour {
 		oreEndT.text = oreGain + " Ore";
 		coin.text = pC.gold.ToString();
 		ore.text = pC.metalOre.ToString();
-		showTimeText.text = Mathf.Floor(pC.waveTimeLeft).ToString() + "s";
+		showTimeText.text = Mathf.Floor(pC.waveTimeLeft).ToString();
 		fillImage.fillAmount = (float)pC.currentPlayerHp / (float)pC.maxPlayerHp;
+		hpText.text = pC.currentPlayerHp.ToString() + "/" + pC.maxPlayerHp.ToString();
 		if (oreStored > 0) {
 			//there is ore stored and can be taken
 			oreAlert.gameObject.SetActive(true);
-			takeOreBtn.gameObject.SetActive (true);
+			//takeOreBtn.gameObject.SetActive (true);
+			setTakeOre(true);
 			buyOreBtn.gameObject.SetActive (false);
 		} else {
 			oreAlert.gameObject.SetActive (false);
 			buyOreBtn.gameObject.SetActive (true);
-			takeOreBtn.gameObject.SetActive (false);
+			//takeOreBtn.gameObject.SetActive (false);
+			setTakeOre(false);
 		}
 	}
 

@@ -22,6 +22,14 @@ public class EnemyControler : MonoBehaviour {
 	private float freeze;
 
 	public GameObject vanishingText;
+	public float startPauseTime;
+	private float startPauseTimer;
+
+	public bool spawnYoungWhenDead;
+	public GameObject youngToSpawn;
+	public int numYoungToSpawn;
+
+	public float moveBackTimer;
 
 	// Use this for initialization
 	void Start () {
@@ -30,10 +38,19 @@ public class EnemyControler : MonoBehaviour {
 		s = 5.0f;
 		this.hp = maxHp;
 		healthBar = healthBarObject.GetComponent<Image> ();
+		startPauseTimer = 0.0f;
+		moveBackTimer = 0.0f;
+		isPaused = false;
 	}
 	
 	// Update is called once per frame
 	void Update () {
+		float effectiveSpeed = speed;
+		if (startPauseTime > startPauseTimer) {
+			startPauseTimer += Time.deltaTime;
+			effectiveSpeed = Mathf.Lerp (0, speed, startPauseTimer/startPauseTime);
+		}
+
 		if (isPaused | !GameManager.enemiesMove) {
 			return;
 		}
@@ -44,7 +61,12 @@ public class EnemyControler : MonoBehaviour {
 		Vector3 playerLocation = gm.getPlayerLocation ();
 		Vector3 direction = playerLocation - gameObject.transform.position;
 		direction = direction.normalized;
-		gameObject.transform.Translate (direction * speed);
+		if (moveBackTimer > 0) {
+			moveBackTimer -= Time.deltaTime;
+			gameObject.transform.Translate (direction * effectiveSpeed * -1.0f);
+		} else {
+			gameObject.transform.Translate (direction * effectiveSpeed);
+		}
 
 		s -= Time.deltaTime;
 		if (s < 0) {
@@ -57,6 +79,13 @@ public class EnemyControler : MonoBehaviour {
 
 	public void dies(){
 		Instantiate (coin, transform.position, Quaternion.identity);
+		if (spawnYoungWhenDead) {
+			for (int i = 0; i < numYoungToSpawn; i++) {
+				SpawnEnemies.numEnemies++;//increase the number of enemies 
+				Instantiate (youngToSpawn, transform.position, Quaternion.identity);
+			}
+		}
+
 		Destroy (gameObject);
 	}
 

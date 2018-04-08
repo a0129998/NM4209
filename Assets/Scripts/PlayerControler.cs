@@ -68,6 +68,7 @@ public class PlayerControler : MonoBehaviour {
 		healthBar = healthBarObject.GetComponent<Image> ();
 		invulnerabilityTimer = 0.0f;
 		playerScore = 0;
+		isPlayerPaused = false;
     }
 
 	public void buyOre(int toBuy, int exchangeRate){
@@ -104,12 +105,14 @@ public class PlayerControler : MonoBehaviour {
 		mS.oreTimeText2.gameObject.SetActive (false);
 		yield return null;
     }
-	IEnumerator blinkHealthBar(){
+	IEnumerator blinkPlayer(){
 		for (int i = 0; i < hpBlink; i++) {
 			yield return new WaitForFixedUpdate ();
 			healthBar.enabled = !healthBar.enabled;
+			sR.enabled = !sR.enabled;
 		}
 		healthBar.enabled = true;
+		sR.enabled = true;
 		yield return null;
 	}
 
@@ -118,10 +121,10 @@ public class PlayerControler : MonoBehaviour {
 		//Debug.Log ("player hit the " + other.gameObject.tag);
 		if (isPlayerAlive) {
 			if (other.CompareTag ("enemy") && this.CompareTag ("Player")) {
+				other.gameObject.GetComponent<EnemyControler> ().moveBackTimer = 1.0f;
 				//get damage
 				//Debug.Log ("playerhit");
-				if (invulnerabilityTimer < 0.0f) {
-					invulnerabilityTimer -= Time.deltaTime;
+				if (invulnerabilityTimer > 0.0f) {
 					sR.color = new Color (1.0f, 1.0f, 1.0f, 0.75f);
 					invincible = true;
 				} else {
@@ -132,17 +135,13 @@ public class PlayerControler : MonoBehaviour {
 					invulnerabilityTimer = 2.0f;
 				}
 				if (!invincible) {
-					StartCoroutine (blinkHealthBar ());
+					StartCoroutine (blinkPlayer ());
 					EnemyControler eC = other.GetComponentInParent<EnemyControler> ();
 					int damage = eC.getDamage ();
 					currentPlayerHp -= damage;
 					spawnVanishingTextWithWords ("-" + damage);
 				}
 			}
-
-
-
-
 
 			if (other.CompareTag ("leftwall") && this.CompareTag ("Player")) {
 				contactLeft = true;
@@ -180,8 +179,13 @@ public class PlayerControler : MonoBehaviour {
             return;
         }
         if (!isPlayerAlive){
+			
             return;//dead player does not move
         }
+		if (invulnerabilityTimer > 0.0f) {
+			invulnerabilityTimer -= Time.deltaTime;//count down invulnerbility timer
+		}
+
 		//healthbar
 		healthBar.fillAmount = (float)currentPlayerHp/(float)maxPlayerHp;
 
@@ -278,7 +282,7 @@ public class PlayerControler : MonoBehaviour {
 			eC.dies ();
         }
 
-		if (Random.Range (0, 1) < chanceToLeach) {
+		if (Random.Range (0.0f, 1.0f) < chanceToLeach) {
 			//leach hp
 			currentPlayerHp = Mathf.Min (maxPlayerHp, currentPlayerHp + attack / 2);
 		}
