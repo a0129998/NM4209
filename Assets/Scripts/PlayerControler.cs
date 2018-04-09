@@ -129,12 +129,17 @@ public class PlayerControler : MonoBehaviour {
 					invincible = true;
 				} else {
 					sR.color = Color.white;
+					invincible = false;
 				}
-
-				if (Random.Range(0.0f, 1.0f) < chanceToPassiveDodge) {
-					invulnerabilityTimer = 2.0f;
+				bool haveDodged = false;
+				float ran = Random.Range (0.0f, 1.0f);
+				if (ran < chanceToPassiveDodge) {
+					//Debug.Log ("dodged");
+					spawnVanishingTextWithWords ("dodged");
+					//invulnerabilityTimer = 0.5f;
+					haveDodged = true;
 				}
-				if (!invincible) {
+				if (!invincible && !haveDodged) {
 					StartCoroutine (blinkPlayer ());
 					EnemyControler eC = other.GetComponentInParent<EnemyControler> ();
 					int damage = eC.getDamage ();
@@ -246,9 +251,11 @@ public class PlayerControler : MonoBehaviour {
 		}
 		sR.sprite.textureRect.Set (t.x, t.y, t.width, t.height);
 
-		if (s < 0) {
+		if (s <= 0) {
 			s = 5.0f;
-			currentPlayerHp += hpRegenPer5Sec;
+			currentPlayerHp = Mathf.Min (currentPlayerHp + hpRegenPer5Sec, maxPlayerHp);
+		} else {
+			s -= Time.deltaTime;
 		}
     }
 

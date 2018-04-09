@@ -154,7 +154,7 @@ public class menuScript : MonoBehaviour {
 		if (oreStored > 0) {//can not click when ore is ready to be collected
 			return;
 		}
-		if (pC.gold >= (oreGold + goldOreExchangeRate)) {//player has at least 10 gold, enough to buy the ore
+		if (pC.gold >= (oreGold + 10)) {//player has at least 10 gold, enough to buy the ore
 			oreGain += 10;
 			oreGold += goldOreExchangeRate * 10;
 		} else {
