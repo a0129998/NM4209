@@ -312,55 +312,73 @@ public class GameManager : MonoBehaviour {
         return playerLocation;
     }
 
+	int getEffectiveLevel(int level){
+		if (level > 9) {//loop levels 5 to 9
+			return (level - 5) % 5 + 5;
+		} else {
+			return level;
+		}
+	}
+
+	void setEnemyScaling(int level){
+		float multiplier = Mathf.Floor (level / 5);
+		float sF = 1.0f;
+		for (int i = 0; i < multiplier; i++) {
+			sF *= 1.25f;
+		}
+		EnemyControler.scalingFactor = sF;
+	}
+
     private void initialise(int level){
         //hard code level 1
 		if(winCondition){
 			return;
 		}
-		useProgressMsgs ("Level " + level + " Start!");
+		setEnemyScaling (level);
+		useProgressMsgs ("Wave " + level);
 		if (isInfinite){
-			level = level % 10;//repeat 10 levels
+			level = getEffectiveLevel(level);
 		}
         switch (level){
 		case 0:
 			p.waveTimeLeft += 30.0f;
-			sE.initSpawn (new int[5]{ 0, 0, 0, 0, 0}, new float[5]{ 1.0f, 5.0f, 5.0f, 5.0f, 5.0f }, new int[5]{1, 1, 1, 1, 1});
+			sE.initSpawn (new int[4]{0, 0, 0, 0}, new float[4]{ 1.0f, 4.0f, 4.0f, 4.0f}, new int[4]{1, 1, 1, 1});
             break;
         case 1:
-			p.waveTimeLeft += 30.0f;
-			sE.initSpawn (new int[5]{ 1, 1, 1, 1, 1 }, new float[5]{1.0f, 5.0f, 5.0f, 5.0f, 5.0f}, new int[5]{5,5,5,5,5});
+			p.waveTimeLeft += 20.0f;
+			sE.initSpawn (new int[4]{1, 1, 1, 1 }, new float[4]{1.0f, 4.0f, 4.0f, 4.0f}, new int[4]{5, 5, 5, 5});
             break;
 		case 2:
-			p.waveTimeLeft += 30.0f;
-			sE.initSpawn (new int[3]{ 2, 2, 2}, new float[3]{ 1.0f, 7.0f, 7.0f}, new int[3]{1,1,1});
+			p.waveTimeLeft += 20.0f;
+			sE.initSpawn (new int[3]{ 2, 2, 2}, new float[3]{ 1.0f, 7.0f, 7.0f}, new int[3]{1, 1, 2});
             break;
 		case 3:
-			p.waveTimeLeft += 30.0f;
-			sE.initSpawn (new int[4]{0, 1, 2, 0 }, new float[4]{1.0f, 7.0f, 7.0f, 7.0f}, new int[4]{1, 5, 1, 2});
+			p.waveTimeLeft += 20.0f;
+			sE.initSpawn (new int[4]{0, 1, 2, 0}, new float[4]{1.0f, 7.0f, 7.0f, 7.0f}, new int[4]{1, 5, 1, 2});
             break;
 		case 4:
-			p.waveTimeLeft += 30.0f;
-			sE.initSpawn (new int[2]{4, 3 }, new float[2]{ 1.0f, 12.0f}, new int[2]{1, 5});
+			p.waveTimeLeft += 20.0f;
+			sE.initSpawn (new int[4]{4, 1, 0, 3 }, new float[4]{1.0f, 10.0f, 4.0f, 4.0f}, new int[4]{1, 5, 2, 5});
             break;
 		case 5:
-			p.waveTimeLeft += 45.0f;
+			p.waveTimeLeft += 25.0f;
 			sE.initSpawn (new int[5]{ 0, 0, 0, 0, 0}, new float[5]{ 1.0f, 5.0f, 5.0f, 5.0f, 5.0f }, new int[5]{2, 1, 2, 1, 2});
 			break;
 		case 6:
-			p.waveTimeLeft += 45.0f;
+			p.waveTimeLeft += 25.0f;
 			sE.initSpawn (new int[5]{1, 1, 1, 1, 1}, new float[5]{1.0f, 5.0f, 5.0f, 5.0f, 5.0f}, new int[5]{10, 5, 10, 5, 10});
 			break;
 		case 7:
-			p.waveTimeLeft += 45.0f;
+			p.waveTimeLeft += 25.0f;
 			sE.initSpawn (new int[5]{ 2, 0 , 2, 0 ,2}, new float[5]{1.0f, 5.0f, 5.0f, 5.0f, 5.0f }, new int[5]{1, 1, 1, 2, 2});
 			break;
 		case 8:
-			p.waveTimeLeft += 45.0f;
-			sE.initSpawn (new int[7]{ 0, 1, 0, 2, 0, 1, 2}, new float[7]{1.0f, 1.0f, 10.0f, 1.0f, 10.0f, 1.0f, 1.0f}, new int[7]{2, 10, 3, 2, 3, 10, 3});
+			p.waveTimeLeft += 25.0f;
+			sE.initSpawn (new int[6]{ 0, 1, 0, 2, 1, 2}, new float[6]{1.0f, 1.0f, 10.0f, 1.0f, 10.0f, 1.0f}, new int[6]{2, 10, 3, 2, 10, 3});
 			break;
 		case 9:
-			p.waveTimeLeft += 60.0f;
-			sE.initSpawn (new int[6]{ 5, 3, 5, 4, 5, 3}, new float[6]{ 1.0f, 10.0f, 10.0f, 10.0f, 10.0f, 1.0f }, new int[6]{1, 5, 1, 2, 1, 5});
+			p.waveTimeLeft += 45.0f;
+			sE.initSpawn (new int[6]{ 5, 3, 4, 5, 3, 4}, new float[6]{ 1.0f, 10.0f, 10.0f, 10.0f, 10.0f, 1.0f}, new int[6]{1, 5, 1, 1, 5, 1});
 			break;
 		case 10://not used
 			p.waveTimeLeft += 60.0f;

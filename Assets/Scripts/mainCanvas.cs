@@ -51,7 +51,7 @@ public class mainCanvas : MonoBehaviour {
 
 		if (gM.betweenLevelsWaitingTime > 0) {
 			waitingTimeText.gameObject.SetActive (true);
-			waitingTimeText.text = "Count Down To Next Level: " + gM.betweenLevelsWaitingTime.ToString ("F0");
+			waitingTimeText.text = "Next Wave Begin: " + gM.betweenLevelsWaitingTime.ToString ("F0");
 		} else if(waitingTimeText.gameObject.activeInHierarchy){
 			waitingTimeText.gameObject.SetActive (false);
 		}

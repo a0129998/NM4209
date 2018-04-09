@@ -184,9 +184,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   atk: 5
-  hp: 40
-  maxHp: 40
-  goldDropped: 2
+  hp: 50
+  maxHp: 50
+  goldDropped: 1
   regen: 0
   speed: 0.04
   healthBarObject: {fileID: 1506587312356302}

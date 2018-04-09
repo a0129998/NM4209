@@ -33,8 +33,15 @@ public class EnemyControler : MonoBehaviour {
 	public float moveBackTimer;
 	public float moveBackTime;
 
+	public static float scalingFactor;
+
 	// Use this for initialization
 	void Start () {
+		//scale
+		maxHp = (int)Mathf.Ceil(maxHp * scalingFactor);
+		atk = (int)Mathf.Ceil(atk * scalingFactor);
+
+
 		gameManager = GameObject.Find ("GameManager");
 		gm = gameManager.GetComponent<GameManager> ();
 		s = 5.0f;

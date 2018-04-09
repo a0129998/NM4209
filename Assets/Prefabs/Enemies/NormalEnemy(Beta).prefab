@@ -154,7 +154,7 @@ MonoBehaviour:
   atk: 5
   hp: 100
   maxHp: 100
-  goldDropped: 10
+  goldDropped: 5
   regen: 0
   speed: 0.02
   healthBarObject: {fileID: 1225203330108222}

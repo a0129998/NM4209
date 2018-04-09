@@ -200,8 +200,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   atk: 10
-  hp: 240
-  maxHp: 240
+  hp: 250
+  maxHp: 250
   goldDropped: 15
   regen: 5
   speed: 0.01
