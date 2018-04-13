@@ -58,6 +58,10 @@ public class PlayerControler : MonoBehaviour {
 
 	public float invulnerabilityTimer;
 
+	public AudioSource playerSlash;
+	public AudioSource playerIsHit;
+	public AudioSource enemyIsHit;
+
 
     void Start(){
         this.isPlayerAlive = true;
@@ -140,6 +144,7 @@ public class PlayerControler : MonoBehaviour {
 					haveDodged = true;
 				}
 				if (!invincible && !haveDodged) {
+					playerIsHit.Play ();
 					StartCoroutine (blinkPlayer ());
 					EnemyControler eC = other.GetComponentInParent<EnemyControler> ();
 					int damage = eC.getDamage ();
@@ -221,6 +226,7 @@ public class PlayerControler : MonoBehaviour {
 
         //attack
         if (Input.GetButtonDown("Fire1")){
+			playerSlash.PlayOneShot (playerSlash.clip);
             sword.SetActive (true);
             this.sC.cutTrigger ();
         }
@@ -281,6 +287,7 @@ public class PlayerControler : MonoBehaviour {
 		if (Random.Range(0.0f, 1.0f) < critRate) {
 			effectiveAtk = (int)(critDamageMultiplier *  (float)effectiveAtk);//add crit rate later
 		}
+		enemyIsHit.PlayOneShot (enemyIsHit.clip);
 		eC.isHit (effectiveAtk);
         if (eC.getHp () <= 0) {
             SpawnEnemies.numEnemies--;

@@ -14,7 +14,7 @@ public class GameManager : MonoBehaviour {
     private Vector2 playerLocation;
     public GameObject[] enemnies;
     public int maxLevel;
-    private int currLevel;
+	public int currLevel;
     public SpawnEnemies sE;
     private menuScript mS;
 
@@ -38,11 +38,9 @@ public class GameManager : MonoBehaviour {
 
 
     //menu
-    public Button menuBtn;
     public Canvas menuCanvas;
     public Canvas usualCanvas;
     public Button goldToOre;
-    public Button blackSmithButton;
     public Canvas blackSmithCanvas;
 	public Button pauseBtn;
 
@@ -65,6 +63,9 @@ public class GameManager : MonoBehaviour {
 	public Button closeSettingsCanvasBtn;
 
 	public bool isInfinite;
+
+	public AudioSource openMenuSound;
+	public AudioSource closeMenuSound;
 
 	IEnumerator fadeSlowly(Text t){
 		float totalFadeTime = 2.0f;
@@ -89,8 +90,6 @@ public class GameManager : MonoBehaviour {
         betweenLevelsWaitingTime = 0.0f;
         mS = menuCanvas.GetComponent<menuScript> ();
 
-        //menuBtn.onClick.AddListener (showMenu);
-        //blackSmithButton.onClick.AddListener (blackSmith);
         goldToOre.onClick.AddListener (buyOre);
 		pauseBtn.onClick.AddListener (shopTab);
         menuCanvas.enabled = false;
@@ -115,13 +114,8 @@ public class GameManager : MonoBehaviour {
 
     }
 
-	void playerLost(){
-		//you lost, try again?
-	}
-
 
 	public void openSettings(){
-		Debug.Log ("try to open settings");
 		if (blackSmithCanvas.enabled) {
 			blackSmithBackRun ();
 		}
@@ -152,6 +146,7 @@ public class GameManager : MonoBehaviour {
 	}
 
 	public void shopTab(){
+		//openMenu.Play ();
 		blackSmithBackRun ();
 		if (settingsCanvas.enabled) {
 			closeSettings ();
@@ -159,6 +154,7 @@ public class GameManager : MonoBehaviour {
 		showMenu ();
 	}
 	public void blackSmithTab(){
+		//openMenu.Play ();
 		if (settingsCanvas.enabled) {
 			closeSettings ();
 		}
@@ -198,7 +194,6 @@ public class GameManager : MonoBehaviour {
 
     void showMenu(){
         pauseGame ();
-        menuBtn.enabled = false;
         menuCanvas.enabled = true;
     }
 
@@ -216,8 +211,6 @@ public class GameManager : MonoBehaviour {
 		p.isPlayerPaused = false;
         isPaused = false;
         EnemyControler.isPaused = false;
-        //usualCanvas.enabled = true;
-        //menuBtn.enabled = true;
         menuCanvas.enabled = false;
     }
 	public void unpause2(){
@@ -257,14 +250,17 @@ public class GameManager : MonoBehaviour {
 		score.text = p.playerScore.ToString();
 		if (Input.GetKeyDown (KeyCode.Escape) && menuCanvas.enabled) {//close menu
 			Debug.Log ("close menu");
+			closeMenuSound.PlayOneShot (closeMenuSound.clip);
 			unpause ();
 		} else if (Input.GetKeyDown (KeyCode.Escape) && (!blackSmithCanvas.enabled && !menuCanvas.enabled && !settingsCanvas.enabled)) {
 			Debug.Log ("show menu");
+			openMenuSound.PlayOneShot (openMenuSound.clip);
 			showMenu ();
 		}
 
 		if (Input.GetKeyDown (KeyCode.Escape) && settingsCanvas.enabled) {
 			Debug.Log("close settings");
+			closeMenuSound.PlayOneShot (closeMenuSound.clip);
 			closeSettings ();
 		}
         if (isPaused) {

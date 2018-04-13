@@ -9,6 +9,7 @@ public class blackSmithScript : MonoBehaviour {
 	public Text coinText;
 	public Text oreText;
 	private PlayerControler pC;
+	public AudioSource closeMenuSound;
 
 	void Start(){
 		gM = gameManager.GetComponent<GameManager> ();
@@ -17,6 +18,7 @@ public class blackSmithScript : MonoBehaviour {
 	void Update(){
 		if (Input.GetKeyDown (KeyCode.Escape) &&  gM.blackSmithCanvas.enabled) {
 			Debug.Log ("enable black smith");
+			closeMenuSound.PlayOneShot (closeMenuSound.clip);
 			gM.blackSmithBackRun ();
 		}
 

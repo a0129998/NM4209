@@ -45,6 +45,7 @@ public class menuScript : MonoBehaviour {
 	public Text hpText;
 	public Image warnNotEnoughGoldImg;
 	public Text warnNotEnoughGoldImgText;
+	public AudioSource notEnoughGoldClip;
 	private int oreGold, oreGain;
 	// Use this for initialization
 	void Start () {
@@ -114,6 +115,7 @@ public class menuScript : MonoBehaviour {
 	}
 
 	void warnNotEnoughGold(){
+		notEnoughGoldClip.Play ();
 		StartCoroutine (fadeSlowlyImgText (warnNotEnoughGoldImg, warnNotEnoughGoldImgText));
 	}
 

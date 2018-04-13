@@ -99,6 +99,7 @@ public class EnemyControler : MonoBehaviour {
 	}
 
 	public void isHit(int hpToRed){//reduce
+		
 		freeze = freezeTime;
 		this.hp -= hpToRed;
 

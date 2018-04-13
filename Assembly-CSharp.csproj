@@ -69,6 +69,7 @@
      <Compile Include="Assets\Scripts\SkillTreePoint.cs" />
      <Compile Include="Assets\Scripts\SpawnEnemies.cs" />
      <Compile Include="Assets\Scripts\startGame.cs" />
+     <Compile Include="Assets\Scripts\stateRelatedScripts\musicPlayer.cs" />
      <Compile Include="Assets\Scripts\SwordControler.cs" />
      <Compile Include="Assets\Scripts\vanishingNumbers.cs" />
      <Compile Include="Assets\Scripts\winLoseController.cs" />

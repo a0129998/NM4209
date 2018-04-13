@@ -87,22 +87,36 @@ public class SpawnEnemies : MonoBehaviour {
 		Vector3 playerLoc = gm.getPlayerLocation ();
 		if (Mathf.Abs (playerLoc.x - xVal) < range && Mathf.Abs (playerLoc.y - yVal) < range) {
 			//too close to player
-			if (Mathf.Abs (playerLoc.x - xVal) < range && Random.Range (-1, 1) > 0) {
-				xVal += range;	
+			if (Mathf.Abs (playerLoc.x - xVal) < range && (playerLoc.x - xVal) > 0) {
+				xVal += range;
+
 			} else {
 				xVal -= range;
+
 			}
-			if (Mathf.Abs (playerLoc.y - yVal) < range && Random.Range (-1, 1) > 0) {
+			if (Mathf.Abs (playerLoc.y - yVal) < range && (playerLoc.y - yVal) > 0) {
 				yVal += range;
+
 			} else {
 				yVal -= range;
+				yVal = Mathf.Max (down, yVal);
+			}
+
+			if (xVal > right) {
+				xVal = Mathf.Min (right, xVal);
+			}
+			if (xVal < left) {
+				xVal = Mathf.Max (left, xVal);
+			}
+			if (yVal > up) {
+				yVal = Mathf.Min (up, yVal);
+			}
+			if (yVal < down) {
+				yVal = Mathf.Max (down, yVal);
 			}
 		}
-		xVal = Mathf.Max (left, xVal);
-		xVal = Mathf.Min (right, xVal);
-		yVal = Mathf.Max (down, yVal);
-		yVal = Mathf.Min (up, yVal);//onstrain 
-		return new Vector3 (xVal, yVal, 0.0f);
+
+		return new Vector3 (xVal, yVal, -11.0f);
 	}
 
 
