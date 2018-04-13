@@ -1,8 +1,7 @@
-OSXStandalone
+WindowsStandalone
 SceneListBegin?
 Assets/Scenes/startScene.unity
 Assets/Scenes/main.unity
-Assets/Scenes/playerLose.unity
 SceneListEnd?
 2d36f442e17c546cd0b3358e67ac719d Assembly-CSharp.dll:.SpawnEnemies
 05524b8f659e7bfe5756d1335fec24ba UnityEngine.Timeline.dll:UnityEngine.Timeline.ActivationPlayableAsset
@@ -18,6 +17,7 @@ ff05dcdf90651c3d98a9cad3df5e471e UnityEngine.Timeline.dll:UnityEngine.Timeline.C
 31aaf521b3ef8699466676591ea0efd4 UnityEngine.Timeline.dll:UnityEngine.Timeline.PlayableTrack
 df374c01140c2d578bf70cbd60073d1d UnityEngine.Timeline.dll:UnityEngine.Timeline.TimelineAsset
 6a7a7099963f860b898efadcd15a21c5 Assembly-CSharp.dll:.blackSmithScript
+cb1dc809c25cac8b3ed6cd2de93455db Assembly-CSharp.dll:.musicPlayer
 a35dc9cca2faebc5f5f1aeb9e8e47bbe UnityEngine.UI.dll:UnityEngine.UI.AspectRatioFitter
 05524b8f659e7bfe5756d1335fec24ba UnityEngine.UI.dll:UnityEngine.EventSystems.BaseInput
 49cd62a578efc0a599b810a2b66cd49c UnityEngine.UI.dll:UnityEngine.UI.Button
@@ -160,4 +160,3 @@ e0760e4c9f4c2798913ed9a3a6ac81a3 Assembly-CSharp.dll:.glowWhenHover
 9de3a22eca9aefadba2d10d5987cefe3 UnityEngine.SpatialTracking.dll:UnityEngine.SpatialTracking.TrackedPoseDriver
 1c3c5cc02f68fe06ed09c63205c1b90a Assembly-CSharp.dll:.closeApplication
 e77ee4fecaefed1fb1bc89e1d0e70589 Assembly-CSharp.dll:.SwordControler
-cb1dc809c25cac8b3ed6cd2de93455db Assembly-CSharp.dll:.musicPlayer

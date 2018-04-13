@@ -28,10 +28,12 @@ public class musicPlayer : MonoBehaviour {
 	}
 	// Update is called once per frame
 	void Update () {
-		if (gM.loseCondition && !loseBGM.isPlaying) {
+		if (gM.loseCondition ) {
 			//lose
-			StopAllAudio();
-			loseBGM.Play ();
+			if (!loseBGM.isPlaying) {
+				StopAllAudio ();
+				loseBGM.Play ();
+			}
 			return;
 		}
 		if ((gM.blackSmithCanvas.enabled || gM.settingsCanvas.enabled || gM.menuCanvas.enabled) && !menuBGM.isPlaying) {

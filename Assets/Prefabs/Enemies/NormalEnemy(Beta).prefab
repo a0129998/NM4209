@@ -162,7 +162,7 @@ MonoBehaviour:
   freezeTime: 0.5
   vanishingText: {fileID: 1482682027064344, guid: 0437ebb2f0bca9b41a50adcf3ce7b3b8,
     type: 2}
-  startPauseTime: 1
+  startPauseTime: 0
   spawnYoungWhenDead: 0
   youngToSpawn: {fileID: 0}
   numYoungToSpawn: 0
