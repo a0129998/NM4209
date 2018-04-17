@@ -122,6 +122,7 @@ c2275a8bfbb9f9942cad75ecdfded41d UnityEngine.HoloLens.dll:UnityEngine.XR.WSA.Spa
 8c6c58da61b083179dea4b0aae597b7c Assembly-CSharp.dll:.startGame
 0166645752815ebddfa6a34afc7e2737 Assembly-CSharp.dll:.vanishingNumbers
 34d5d7f981bbb0f785a091ca477f57c4 Assembly-CSharp.dll:.SkillTreePoint
+17430ccac8c57c54326db53a82c97ceb Assembly-CSharp.dll:.instructionsBehaviour
 05524b8f659e7bfe5756d1335fec24ba UnityEngine.Advertisements.dll:UnityEngine.Advertisements.CallbackExecutor
 05524b8f659e7bfe5756d1335fec24ba UnityEngine.Advertisements.dll:UnityEngine.Advertisements.Editor.Placeholder
 b483d9aa0dfa77936c51e9dfe66a92be Assembly-CSharp.dll:.GameManager
@@ -160,4 +161,3 @@ e0760e4c9f4c2798913ed9a3a6ac81a3 Assembly-CSharp.dll:.glowWhenHover
 9de3a22eca9aefadba2d10d5987cefe3 UnityEngine.SpatialTracking.dll:UnityEngine.SpatialTracking.TrackedPoseDriver
 1c3c5cc02f68fe06ed09c63205c1b90a Assembly-CSharp.dll:.closeApplication
 e77ee4fecaefed1fb1bc89e1d0e70589 Assembly-CSharp.dll:.SwordControler
-17430ccac8c57c54326db53a82c97ceb Assembly-CSharp.dll:.instructionsBehaviour
