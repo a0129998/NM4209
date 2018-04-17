@@ -20,8 +20,7 @@ public class SkillTreePoint : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 	public float ASAdd;//multiplication
 	public float chanceToLeach;
 
-	public Text tooltip;
-	public GameObject panel;
+	public Image tooltip;
 
 	public Button thisButton;
 
@@ -34,6 +33,8 @@ public class SkillTreePoint : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 	public float rightOffset;
 	public float downOffset;
 	public float chanceToPassiveDodge;
+	public GameObject blackSmithCanvasObj;
+	private blackSmithScript bSS;
 	// Use this for initialization
 
 	void Start(){
@@ -41,18 +42,18 @@ public class SkillTreePoint : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 		thisButton.onClick.AddListener (upgradePlayer);
 		activated = false;
 		tooltip.enabled = false;
-		panel.SetActive (false);
 		//notObtained.enabled = false;
 		//locked.enabled = false;
 		buttonImg = gameObject.GetComponent<Image>();
 		rightOffset = tooltip.GetPixelAdjustedRect ().width;
 		downOffset = tooltip.GetPixelAdjustedRect ().height;
+		bSS = blackSmithCanvasObj.GetComponent<blackSmithScript> ();
 	}
 	public void upgradePlayer(){
-		if (pC.metalOre >= costInOre && canActivate() && !activated) {
+		if (pC.metalOre >= costInOre && canActivate () && !activated) {
 			pC.metalOre -= costInOre;
 			pC.attack += atkAdd;
-			pC.hpRegenPer5Sec = Mathf.Max( hpReg, pC.hpRegenPer5Sec);
+			pC.hpRegenPer5Sec = Mathf.Max (hpReg, pC.hpRegenPer5Sec);
 			pC.maxPlayerHp += totalHPAdd;
 			pC.currentPlayerHp += hpAdd;
 			pC.playerSpeed = Mathf.Max (pC.playerSpeed * MSAdd, pC.playerSpeed);
@@ -60,8 +61,12 @@ public class SkillTreePoint : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 			pC.critRate = Mathf.Max (pC.critRate * critAdd, pC.critRate);
 			pC.critDamageMultiplier = Mathf.Max (pC.critDamageMultiplier * critDamageMultiplyerMultiplyer, pC.critDamageMultiplier);
 			activated = true;
-			pC.chanceToLeach = Mathf.Max(chanceToLeach, pC.chanceToLeach);
+			pC.chanceToLeach = Mathf.Max (chanceToLeach, pC.chanceToLeach);
 			pC.chanceToPassiveDodge = Mathf.Max (pC.chanceToPassiveDodge, chanceToPassiveDodge);
+		} else if (pC.metalOre < costInOre && canActivate () && !activated) {
+			bSS.warnNotEnoughOre();
+		} else if (!canActivate ()) {
+			
 		}
 	}
 
@@ -115,12 +120,10 @@ public class SkillTreePoint : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
 	public void OnPointerEnter(PointerEventData p){
 		tooltip.enabled = true;
-		panel.SetActive (true);
 	}
 	public void OnPointerExit(PointerEventData p){
 
 		tooltip.enabled = false;
-		panel.SetActive (false);
 	}
 		
 

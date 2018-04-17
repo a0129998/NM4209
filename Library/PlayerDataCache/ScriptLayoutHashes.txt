@@ -1,4 +1,4 @@
-WindowsStandalone
+OSXStandalone
 SceneListBegin?
 Assets/Scenes/startScene.unity
 Assets/Scenes/main.unity
@@ -16,7 +16,7 @@ ff05dcdf90651c3d98a9cad3df5e471e UnityEngine.Timeline.dll:UnityEngine.Timeline.C
 31aaf521b3ef8699466676591ea0efd4 UnityEngine.Timeline.dll:UnityEngine.Timeline.GroupTrack
 31aaf521b3ef8699466676591ea0efd4 UnityEngine.Timeline.dll:UnityEngine.Timeline.PlayableTrack
 df374c01140c2d578bf70cbd60073d1d UnityEngine.Timeline.dll:UnityEngine.Timeline.TimelineAsset
-6a7a7099963f860b898efadcd15a21c5 Assembly-CSharp.dll:.blackSmithScript
+9d9f50c6f31fde4d40f33d2762225557 Assembly-CSharp.dll:.blackSmithScript
 cb1dc809c25cac8b3ed6cd2de93455db Assembly-CSharp.dll:.musicPlayer
 a35dc9cca2faebc5f5f1aeb9e8e47bbe UnityEngine.UI.dll:UnityEngine.UI.AspectRatioFitter
 05524b8f659e7bfe5756d1335fec24ba UnityEngine.UI.dll:UnityEngine.EventSystems.BaseInput
@@ -119,13 +119,13 @@ bc68edb0af574bf79f9550ead8ebae5c UnityEngine.HoloLens.dll:UnityEngine.Audio.Audi
 463516d5b5fe8e67a0a24c48f2095b04 UnityEngine.HoloLens.dll:UnityEngine.EventSystems.HoloLensInputModule
 c2275a8bfbb9f9942cad75ecdfded41d UnityEngine.HoloLens.dll:UnityEngine.XR.WSA.SpatialMappingCollider
 45f3431f0103c41611e8d4eec3d439df UnityEngine.HoloLens.dll:UnityEngine.XR.WSA.SpatialMappingRenderer
-4816bbc24d315198149a6ab14edc4e1c Assembly-CSharp.dll:.startGame
-aa6418c622b7c8e6300b1bcffa160f1e Assembly-CSharp.dll:.vanishingNumbers
-4386738c8351cb540172f47fc7377bc2 Assembly-CSharp.dll:.SkillTreePoint
+8c6c58da61b083179dea4b0aae597b7c Assembly-CSharp.dll:.startGame
+0166645752815ebddfa6a34afc7e2737 Assembly-CSharp.dll:.vanishingNumbers
+34d5d7f981bbb0f785a091ca477f57c4 Assembly-CSharp.dll:.SkillTreePoint
 05524b8f659e7bfe5756d1335fec24ba UnityEngine.Advertisements.dll:UnityEngine.Advertisements.CallbackExecutor
 05524b8f659e7bfe5756d1335fec24ba UnityEngine.Advertisements.dll:UnityEngine.Advertisements.Editor.Placeholder
-e3c941910fbf03b728c323749abb9123 Assembly-CSharp.dll:.GameManager
-0d81ffd7cc6954b6f999f1ac871d21a6 Assembly-CSharp.dll:.menuScript
+b483d9aa0dfa77936c51e9dfe66a92be Assembly-CSharp.dll:.GameManager
+b5b69e55b701856cb5830ab9b2ae1737 Assembly-CSharp.dll:.menuScript
 8b310af7033f2216865eee4af03bcfef Assembly-CSharp.dll:.winLoseController
 fa0d32c53f04701619ae0dc2a648fb4a Assembly-CSharp.dll:.coins
 1444dbe2981a4ea98f0fc76d7dd04639 Assembly-CSharp.dll:.settingsCanvas
@@ -160,3 +160,4 @@ e0760e4c9f4c2798913ed9a3a6ac81a3 Assembly-CSharp.dll:.glowWhenHover
 9de3a22eca9aefadba2d10d5987cefe3 UnityEngine.SpatialTracking.dll:UnityEngine.SpatialTracking.TrackedPoseDriver
 1c3c5cc02f68fe06ed09c63205c1b90a Assembly-CSharp.dll:.closeApplication
 e77ee4fecaefed1fb1bc89e1d0e70589 Assembly-CSharp.dll:.SwordControler
+17430ccac8c57c54326db53a82c97ceb Assembly-CSharp.dll:.instructionsBehaviour

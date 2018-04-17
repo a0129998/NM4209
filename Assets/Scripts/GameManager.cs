@@ -67,6 +67,9 @@ public class GameManager : MonoBehaviour {
 	public AudioSource openMenuSound;
 	public AudioSource closeMenuSound;
 
+	public int waveCompletionPercentage;
+	public Text wavePercentageText;
+
 	IEnumerator fadeSlowly(Text t){
 		float totalFadeTime = 2.0f;
 		Color originalColour = t.color;
@@ -175,7 +178,7 @@ public class GameManager : MonoBehaviour {
 			p.buyOre (oreTOBuy, mS.goldOreExchangeRate);
             mS.resetOreMenu ();
 		} else {
-			//mS.warnNotEnoughGold ();
+			mS.warnNotEnoughGold ();
 		}
     }
     public int checkOre(){
@@ -192,7 +195,7 @@ public class GameManager : MonoBehaviour {
 		unpause2 ();
     }
 
-    void showMenu(){
+    public void showMenu(){
         pauseGame ();
         menuCanvas.enabled = true;
     }
@@ -220,7 +223,7 @@ public class GameManager : MonoBehaviour {
 	}
 
     public void setWaitingTime(){
-        betweenLevelsWaitingTime = 5.0f;
+        betweenLevelsWaitingTime = 3.0f;
 		p.isTimePaused = true;
 		useProgressMsgs ("Current Level Cleared!");
     }
@@ -235,6 +238,8 @@ public class GameManager : MonoBehaviour {
 			pauseGame ();
 			//go to win page- should have replay option
 		}
+		Debug.Log (waveCompletionPercentage);
+		wavePercentageText.text = "Wave Completed: x%".Replace ("x", waveCompletionPercentage.ToString ());
 		if (p.waveTimeLeft < 0) {
 			//gameover
 			useProgressMsgs("Time Ran Out");
@@ -276,6 +281,7 @@ public class GameManager : MonoBehaviour {
 			p.isTimePaused = false;
 
         }
+
         playerLocation = player.transform.position;
 
 		moveScene.score = p.playerScore;
@@ -320,7 +326,7 @@ public class GameManager : MonoBehaviour {
 		float multiplier = Mathf.Floor (level / 5);
 		float sF = 1.0f;
 		for (int i = 0; i < multiplier; i++) {
-			sF *= 1.25f;
+			sF *= 1.4f;
 		}
 		EnemyControler.scalingFactor = sF;
 	}
@@ -331,7 +337,7 @@ public class GameManager : MonoBehaviour {
 			return;
 		}
 		setEnemyScaling (level);
-		useProgressMsgs ("Wave " + level);
+		useProgressMsgs ("Wave " + (level +1));
 		if (isInfinite){
 			level = getEffectiveLevel(level);
 		}

@@ -76,6 +76,7 @@ MonoBehaviour:
   timeToVanish: 5
   speed: 0.01
   text: {fileID: 114834015869947042}
+  parent: {fileID: 1482682027064344}
 --- !u!114 &114472086200176430
 MonoBehaviour:
   m_ObjectHideFlags: 1

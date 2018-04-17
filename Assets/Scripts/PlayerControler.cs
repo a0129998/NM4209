@@ -85,10 +85,11 @@ public class PlayerControler : MonoBehaviour {
 	IEnumerator aO(int toAdd, menuScript mS){
 		
 		mS.blockOre.gameObject.SetActive (true);
-		float timer = 20.0f;
+		float timer = 30.0f;
 		mS.oreTimeText.gameObject.SetActive(true);
-		mS.oreTimeText2.gameObject.SetActive (true);
+		mS.storedOreText.gameObject.SetActive (true);
 		mS.oreTimeText.text = Mathf.Floor (timer).ToString();
+		mS.storedOreText.text = mS.oreGain.ToString ();
 		while (isPlayerPaused) {
 			yield return null;
 		}
@@ -100,23 +101,29 @@ public class PlayerControler : MonoBehaviour {
 			} else {
 				yield return new WaitForFixedUpdate ();
 				timer -= Time.deltaTime;
-				mS.oreTimeText.text = Mathf.Floor (timer).ToString ();
+				mS.oreTimeText.text = Mathf.Floor (timer).ToString () + "S";
+				mS.storedOreText.text = mS.oreGain.ToString ();
 			}
 		}
 		mS.oreStored = toAdd;
 		mS.blockOre.gameObject.SetActive (false);
 		mS.oreTimeText.gameObject.SetActive(false);
-		mS.oreTimeText2.gameObject.SetActive (false);
+		mS.storedOreText.gameObject.SetActive (false);
 		yield return null;
     }
 	IEnumerator blinkPlayer(){
 		for (int i = 0; i < hpBlink; i++) {
 			yield return new WaitForFixedUpdate ();
 			healthBar.enabled = !healthBar.enabled;
-			sR.enabled = !sR.enabled;
+			Color faded = new Color (1.0f, 1.0f, 1.0f, 0.5f);
+			if (healthBar.enabled) {
+				sR.color = Color.white;
+			} else {
+				sR.color = faded;
+			}
 		}
 		healthBar.enabled = true;
-		sR.enabled = true;
+		sR.color = Color.white;
 		yield return null;
 	}
 
@@ -292,13 +299,13 @@ public class PlayerControler : MonoBehaviour {
         if (eC.getHp () <= 0) {
             SpawnEnemies.numEnemies--;
 			gold += eC.goldDropped;
-			playerScore += eC.goldDropped;
+			playerScore += eC.goldDropped * 100;
 			eC.dies ();
         }
 
 		if (Random.Range (0.0f, 1.0f) < chanceToLeach) {
 			//leach hp
-			currentPlayerHp = Mathf.Min (maxPlayerHp, currentPlayerHp + attack / 2);
+			currentPlayerHp = Mathf.Min (maxPlayerHp, currentPlayerHp + (int)Mathf.Ceil((float)attack*0.05f));
 		}
 
     }

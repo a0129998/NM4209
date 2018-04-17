@@ -188,10 +188,10 @@ MonoBehaviour:
   maxHp: 50
   goldDropped: 1
   regen: 0
-  speed: 0.04
+  speed: 0.07
   healthBarObject: {fileID: 1506587312356302}
   coin: {fileID: 1580272944168528, guid: 48f72aa844c5b15438a9e7821dfe4d6c, type: 2}
-  freezeTime: 0.5
+  freezeTime: 0.2
   vanishingText: {fileID: 1482682027064344, guid: 0437ebb2f0bca9b41a50adcf3ce7b3b8,
     type: 2}
   startPauseTime: 0

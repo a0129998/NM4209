@@ -21,6 +21,7 @@ public class menuScript : MonoBehaviour {
 	public Text incrementTimeText;
 	private Color originalIncrementTimeTextColor;
 	public Text showTimeText;
+	public Text showTimeMsText;
 
 	//public Text oreGoldT;
 	public Text oreEndT;
@@ -31,7 +32,6 @@ public class menuScript : MonoBehaviour {
 	public Image blockOre;
 	public int oreStored;
 	public Text oreTimeText;
-	public Text oreTimeText2;
 	public Button takeOreBtn;
 	public GameObject takeOreBackground;
 	public GameObject takeOreObj;
@@ -46,7 +46,15 @@ public class menuScript : MonoBehaviour {
 	public Image warnNotEnoughGoldImg;
 	public Text warnNotEnoughGoldImgText;
 	public AudioSource notEnoughGoldClip;
-	private int oreGold, oreGain;
+	public int oreGold, oreGain;
+	private Canvas thisCanvas;
+	public Image takenOreImg;
+	public Text takenOreText;
+
+	private Color originalWarningImgColour;
+	private Color originalWarningTextColour;
+
+	public Text storedOreText;
 	// Use this for initialization
 	void Start () {
 		pC = player.GetComponent<PlayerControler> ();//get player controller to access player attributes
@@ -70,10 +78,15 @@ public class menuScript : MonoBehaviour {
 
 		takeOreBtn.onClick.AddListener (takeOre);
 		oreTimeText.gameObject.SetActive(false);
-		oreTimeText2.gameObject.SetActive(false);
+		storedOreText.gameObject.SetActive(false);
 		oreAlert.gameObject.SetActive (false);
 		warnNotEnoughGoldImg.enabled = false;
 		warnNotEnoughGoldImgText.enabled = false;
+		thisCanvas = gameObject.GetComponent<Canvas> ();
+		takenOreImg.enabled = false;
+		takenOreText.enabled = false;
+		originalWarningImgColour = warnNotEnoughGoldImg.color;
+		originalWarningTextColour = warnNotEnoughGoldImgText.color;
 
 	}
 
@@ -97,6 +110,7 @@ public class menuScript : MonoBehaviour {
 		} else {
 			notEnoughGoldHealth.text = "HP Full";
 			notEnoughGoldHealth.color = originalNotEnoughGoldHealthColor;
+			notEnoughGoldClip.PlayOneShot (notEnoughGoldClip.clip);
 			StartCoroutine (fadeSlowly (notEnoughGoldHealth));
 		}
 	}
@@ -114,7 +128,7 @@ public class menuScript : MonoBehaviour {
 		}
 	}
 
-	void warnNotEnoughGold(){
+	public void warnNotEnoughGold(){
 		notEnoughGoldClip.Play ();
 		StartCoroutine (fadeSlowlyImgText (warnNotEnoughGoldImg, warnNotEnoughGoldImgText));
 	}
@@ -124,8 +138,8 @@ public class menuScript : MonoBehaviour {
 		float totalFadeTime = 2.0f;
 		img.enabled = true;
 		t.enabled = true;
-		Color originalImgColor = img.color;
-		Color originalTextColour = t.color;
+		Color originalImgColor = originalWarningImgColour;
+		Color originalTextColour = originalWarningTextColour;
 		while (totalFadeTime > 0) {
 			totalFadeTime -= Time.deltaTime;
 			img.color = Color.Lerp (originalImgColor, Color.clear, 1.0f - totalFadeTime);
@@ -187,16 +201,20 @@ public class menuScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		oreEndT.text = oreGain + " Ore";
+		if (oreGain <= 1) {
+			oreEndT.text = oreGain + " Ore";
+		} else {
+			oreEndT.text = oreGain + " Ores";
+		}
 		coin.text = pC.gold.ToString();
 		ore.text = pC.metalOre.ToString();
 		showTimeText.text = Mathf.Floor(pC.waveTimeLeft).ToString();
+		showTimeMsText.text = ((pC.waveTimeLeft * 100) % 100).ToString ("F0");
 		fillImage.fillAmount = (float)pC.currentPlayerHp / (float)pC.maxPlayerHp;
 		hpText.text = pC.currentPlayerHp.ToString() + "/" + pC.maxPlayerHp.ToString();
 		if (oreStored > 0) {
 			//there is ore stored and can be taken
 			oreAlert.gameObject.SetActive(true);
-			//takeOreBtn.gameObject.SetActive (true);
 			setTakeOre(true);
 			buyOreBtn.gameObject.SetActive (false);
 		} else {
@@ -205,6 +223,10 @@ public class menuScript : MonoBehaviour {
 			//takeOreBtn.gameObject.SetActive (false);
 			setTakeOre(false);
 		}
+
+		if (thisCanvas.enabled && oreStored>0) {
+			takeOre ();
+		}
 	}
 
 	public void takeOre(){
@@ -212,6 +234,7 @@ public class menuScript : MonoBehaviour {
 		oreStored = 0;//reset stored
 		resetOreMenu();
 		disableBlockOre();
+		StartCoroutine (fadeSlowlyImgText(takenOreImg, takenOreText));
 	}
 
 	public void disableBlockOre(){

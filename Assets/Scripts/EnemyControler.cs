@@ -87,6 +87,7 @@ public class EnemyControler : MonoBehaviour {
 	}
 
 	public void dies(){
+		SpawnEnemies.numEnemiesKilledThisWave++;
 		Instantiate (coin, transform.position, Quaternion.identity);
 		if (spawnYoungWhenDead) {
 			for (int i = 0; i < numYoungToSpawn; i++) {

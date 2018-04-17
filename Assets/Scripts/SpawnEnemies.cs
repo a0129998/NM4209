@@ -19,6 +19,8 @@ public class SpawnEnemies : MonoBehaviour {
 	public float down;
 	//do not spend within this range from player position
 	public float range;
+	private int totalEnemiesThisWave;
+	public static int numEnemiesKilledThisWave;
 
 	public void initSpawn(int[] enemyType, float[] time, int[] enemyNumber){
 		this.gm = gameManager.GetComponent<GameManager> ();
@@ -29,8 +31,19 @@ public class SpawnEnemies : MonoBehaviour {
 		this.timeToNext = times [counter];
 		this.enemyNumber = enemyNumber;
 		numEnemies = 0;
+		gm.waveCompletionPercentage = 0;
+
+		totalEnemiesThisWave = 0;
+		for (int i = 0; i < enemyNumber.Length; i++) {
+			totalEnemiesThisWave += enemyNumber [i];
+		}
+		numEnemiesKilledThisWave = 0;
 	}
 
+	int getWaveCompletePercent(){
+		//Debug.Log (Mathf.RoundToInt( (numEnemiesKilledThisWave * 100) / totalEnemiesThisWave));
+		return Mathf.RoundToInt( (numEnemiesKilledThisWave * 100) / totalEnemiesThisWave);
+	}
 
 	
 	// Update is called once per frame
@@ -38,6 +51,7 @@ public class SpawnEnemies : MonoBehaviour {
 		if (this.gm.isPaused) {
 			return;
 		}
+		gm.waveCompletionPercentage = getWaveCompletePercent ();
 		if (timeToNext > 0) {
 			timeToNext -= Time.deltaTime;
 		} else {
@@ -65,6 +79,8 @@ public class SpawnEnemies : MonoBehaviour {
 			}
 
 		}
+
+
 
 		if (GameManager.debug) {
 			if (Input.GetKeyDown (KeyCode.Alpha0)) {

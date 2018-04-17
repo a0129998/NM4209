@@ -6,11 +6,9 @@ public class SwordControler : MonoBehaviour {
 	public GameObject gameManager;
 	private GameManager gm;
 	private PlayerControler player;
-	private float atkSpd;
 	private float pT;
 	private bool isSlashing;//player cannot slash when is slashing
 	private Quaternion originalLocalRotate;
-	private float atkAngle;//angle to swing
 	private float atkAngleCounter;
 
 	// Use this for initialization
@@ -18,17 +16,15 @@ public class SwordControler : MonoBehaviour {
 		gameObject.SetActive (false);//only active when called
 		gm = gameManager.GetComponent<GameManager> ();
 		player = gameObject.GetComponentInParent<PlayerControler> ();
-		atkSpd = player.atkSpd;
 		isSlashing = false;
-		atkAngle = player.atkAngle;
 		originalLocalRotate = transform.localRotation;
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		if ( atkAngleCounter > 0) {
-			atkAngleCounter -= Time.deltaTime * atkSpd;
-			transform.Rotate (Vector3.back * Time.deltaTime * atkSpd);
+			atkAngleCounter -= Time.deltaTime * player.atkSpd;
+			transform.Rotate (Vector3.back * Time.deltaTime * player.atkSpd);
 		} else if(isSlashing){
 			//just finished slashing
 			isSlashing = false;
@@ -59,8 +55,8 @@ public class SwordControler : MonoBehaviour {
 				transform.Rotate(new Vector3(0.0f, 0.0f, angleFromXAxis * -1 - 90.0f));
 			}
 			//rotate half of atk angle anticlockwise
-			transform.Rotate(new Vector3(0.0f, 0.0f, atkAngle/2.0f));
-			atkAngleCounter = atkAngle;
+			transform.Rotate(new Vector3(0.0f, 0.0f, player.atkAngle/2.0f));
+			atkAngleCounter = player.atkAngle;
 		}
 	}
 }
