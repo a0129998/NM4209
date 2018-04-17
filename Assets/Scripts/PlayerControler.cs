@@ -102,7 +102,7 @@ public class PlayerControler : MonoBehaviour {
 				yield return new WaitForFixedUpdate ();
 				timer -= Time.deltaTime;
 				mS.oreTimeText.text = Mathf.Floor (timer).ToString () + "S";
-				mS.storedOreText.text = mS.oreGain.ToString ();
+				mS.storedOreText.text = toAdd.ToString ();
 			}
 		}
 		mS.oreStored = toAdd;
